@@ -5,7 +5,7 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{459BD07E-080E-4470-B86C-3517C8C96ED1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unirota.API", "src\Unirota\Unirota.API.csproj", "{7856475F-AAB2-4A5A-86D5-9E8E1849A6AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unirota.API", "src\Unirota.API\Unirota.API.csproj", "{7856475F-AAB2-4A5A-86D5-9E8E1849A6AA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unirota.Application", "src\Unirota.Application\Unirota.Application.csproj", "{E7D7ABCC-F4E2-4BF0-81BF-4C043CD38630}"
 EndProject

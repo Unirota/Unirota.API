@@ -14,7 +14,7 @@ public class UsuarioController : BaseApiController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Criar([FromBody] CriarUsuarioRequest request)
+    public async Task<IActionResult> Criar([FromBody] CriarUsuarioCommand request)
     {
         return GetResponse(await Mediator.Send(request));
     }

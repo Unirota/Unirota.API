@@ -1,0 +1,6 @@
+﻿services:
+  unirota.api:
+    image: unirota.api
+    build:
+      context: .
+      dockerfile: Unirota/Dockerfile

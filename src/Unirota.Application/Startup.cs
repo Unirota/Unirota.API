@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Unirota.Application.Requests.Usuarios;
+using Unirota.Application.Validations.Usuario;
 
 namespace Unirota.Application;
 
@@ -16,6 +19,7 @@ public static class Startup
 
     public static IServiceCollection AddValidations(this IServiceCollection services)
     {
+        services.AddScoped<IValidator<CriarUsuarioCommand>, CriarUsuarioValidation>();
         return services;
     }
 }

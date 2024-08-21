@@ -12,7 +12,7 @@ public static class Startup
         services.AddFluentMigratorCore()
             .ConfigureRunner(
                 config => config
-                    .AddPostgres11_0()
+                    .AddPostgres()
                     .WithGlobalConnectionString(configuration.GetConnectionString("DefaultConnection"))
                     .ScanIn(Assembly.GetExecutingAssembly())
                     .For.All()

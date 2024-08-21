@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Runtime.CompilerServices;
 using Unirota.Infrastructure.Common;
 using Unirota.Infrastructure.Health;
 using Unirota.Infrastructure.Mapping;
@@ -12,7 +14,7 @@ public static class Startup
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         MapSettings.Configure();
-        //TODO: Adicionar Auth
+        
         return services
             .AddHealthCheck()
             .AddPersistence(configuration)

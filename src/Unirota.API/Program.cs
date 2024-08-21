@@ -1,5 +1,7 @@
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Unirota.API.Configurations;
+using Unirota.API.OptionsSetup;
 using Unirota.Application;
 using Unirota.Infrastructure;
 using Unirota.Migrations;
@@ -26,6 +28,12 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+
+builder.Services.ConfigureOptions<JwtOptionsSetup>();
+builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
+
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddMigrations(builder.Configuration);
 
@@ -47,9 +55,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseCors();
 
 app.MapControllers();
 

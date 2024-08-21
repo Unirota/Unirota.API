@@ -1,12 +1,14 @@
 ﻿using Mapster;
 using MediatR;
 using Unirota.Application.Commands.Usuarios;
+using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Handlers.Common;
 using Unirota.Application.Persistence;
 using Unirota.Application.Requests.Usuarios;
 using Unirota.Application.Services;
 using Unirota.Application.Services.Usuarios;
 using Unirota.Application.Specifications.Usuarios;
+using Unirota.Application.ViewModels.Auth;
 using Unirota.Application.ViewModels.Usuarios;
 using Unirota.Domain.Entities.Usuarios;
 
@@ -14,20 +16,23 @@ namespace Unirota.Application.Handlers;
 
 public class UsuarioRequestHandler : BaseRequestHandler,
                                      IRequestHandler<CriarUsuarioCommand, int>,
-                                     IRequestHandler<LoginCommand, UsuarioViewModel>
+                                     IRequestHandler<LoginCommand, TokenViewModel>
 {
     private readonly IRepository<Usuario> _repository;
     private readonly IReadRepository<Usuario> _readRepository;
     private readonly IUsuarioService _service;
+    private readonly IJwtProvider _jwtProvider;
 
     public UsuarioRequestHandler(IServiceContext serviceContext,
                                  IRepository<Usuario> repository,
                                  IReadRepository<Usuario> readRepository,
-                                 IUsuarioService usuarioService) : base(serviceContext)
+                                 IUsuarioService usuarioService,
+                                 IJwtProvider jwtProvider) : base(serviceContext)
     {
         _repository = repository;
         _service = usuarioService;
         _readRepository = readRepository;
+        _jwtProvider = jwtProvider;
     }
 
     public async Task<int> Handle(CriarUsuarioCommand request, CancellationToken cancellationToken)
@@ -41,7 +46,7 @@ public class UsuarioRequestHandler : BaseRequestHandler,
         return novoUsuario.Id;
     }
 
-    public async Task<UsuarioViewModel> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<TokenViewModel?> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var usuario = await _readRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorEmailSpec(request.Email), cancellationToken);
 
@@ -57,11 +62,6 @@ public class UsuarioRequestHandler : BaseRequestHandler,
             return default;
         }
 
-        var viewmodel = usuario.Adapt<UsuarioViewModel>();
-
-        var jwt = 
-        
-
-        return viewmodel;
+        return _jwtProvider.GerarToken(usuario.Adapt<UsuarioViewModel>());
     }
 }

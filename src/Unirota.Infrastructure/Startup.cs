@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Unirota.Infrastructure.Common;
 using Unirota.Infrastructure.Health;
+using Unirota.Infrastructure.Mapping;
 using Unirota.Infrastructure.Persistence;
 
 namespace Unirota.Infrastructure;
@@ -10,6 +11,7 @@ public static class Startup
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        MapSettings.Configure();
         //TODO: Adicionar Auth
         return services
             .AddHealthCheck()

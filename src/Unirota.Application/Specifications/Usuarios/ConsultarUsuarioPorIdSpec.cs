@@ -1,6 +1,6 @@
 ﻿using Ardalis.Specification;
 
-namespace Unirota.Application.Specifications.Usuario;
+namespace Unirota.Application.Specifications.Usuarios;
 
 public class ConsultarUsuarioPorIdSpec : Specification<Domain.Entities.Usuarios.Usuario>
 {

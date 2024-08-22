@@ -2,8 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using Unirota.Application.Requests.Usuarios;
+using Unirota.Application.Commands.Usuarios;
+using Unirota.Application.Common.Interfaces;
+using Unirota.Application.Services.Usuarios;
 using Unirota.Application.Validations.Usuario;
+using Unirota.Infrastructure.Auth;
 
 namespace Unirota.Application;
 
@@ -11,6 +14,9 @@ public static class Startup
 {
     public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddScoped<IJwtProvider, JwtProvider>();
+        services.AddScoped<IUsuarioService, UsuarioService>();
+
         var assembly = Assembly.GetExecutingAssembly();
         return services
             .AddValidations()

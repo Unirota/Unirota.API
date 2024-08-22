@@ -4,7 +4,6 @@ using Unirota.Application.Commands.Usuarios;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Handlers.Common;
 using Unirota.Application.Persistence;
-using Unirota.Application.Requests.Usuarios;
 using Unirota.Application.Services;
 using Unirota.Application.Services.Usuarios;
 using Unirota.Application.Specifications.Usuarios;
@@ -38,7 +37,7 @@ public class UsuarioRequestHandler : BaseRequestHandler,
     public async Task<int> Handle(CriarUsuarioCommand request, CancellationToken cancellationToken)
     {
         var senhaCriptografada = _service.CriptografarSenha(request.Senha);
-        var novoUsuario = new Usuario(request.Nome, request.Email, request.Habilitacao, senhaCriptografada, request.CPF);
+        var novoUsuario = new Usuario(request.Nome, request.Email, false, senhaCriptografada, request.CPF);
 
         await _repository.AddAsync(novoUsuario, cancellationToken);
         novoUsuario = await _readRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(novoUsuario.Id), cancellationToken);

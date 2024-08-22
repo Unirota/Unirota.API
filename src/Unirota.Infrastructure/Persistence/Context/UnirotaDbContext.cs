@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Unirota.Domain.Entities.Usuarios;
 
 namespace Unirota.Infrastructure.Persistence.Context;
 
@@ -9,6 +10,5 @@ public class UnirotaDbContext : DbContext
     {
     }
 
-    //TODO: Adicionar DbSets
-    //ex: public DBSet<Entidade> Entidades => Set<Entidade>();
+    public DbSet<Usuario> Usuarios => Set<Usuario>();
 }

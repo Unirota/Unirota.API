@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Unirota.Application.Requests.Usuarios;
+using Unirota.Application.Commands.Usuarios;
 
 namespace Unirota.Application.Validations.Usuario;
 
@@ -22,5 +22,11 @@ public class CriarUsuarioValidation : AbstractValidator<CriarUsuarioCommand>
             .WithMessage("Senha é obrigatória")
             .MinimumLength(6)
             .WithMessage("Senha deve ter no mínimo 6 caracteres");
+
+        RuleFor(x => x.CPF)
+            .NotEmpty()
+            .MinimumLength(11)
+            .MaximumLength(11)
+            .WithMessage("CPF é obrigatório");
     }
 }

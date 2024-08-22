@@ -13,7 +13,7 @@ public class Migration202408121316 : Migration
             .WithColumn("nome").AsString().NotNullable()
             .WithColumn("email").AsString().NotNullable()
             .WithColumn("habilitacao").AsString().Unique().Nullable()
-            .WithColumn("motorista").AsBoolean().NotNullable()
+            .WithColumn("motorista").AsBoolean().WithDefaultValue(false).NotNullable()
             .WithColumn("senha").AsString().NotNullable()
             .WithColumn("cpf").AsString().Unique().NotNullable();
     }

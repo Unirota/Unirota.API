@@ -37,7 +37,7 @@ public class UsuarioRequestHandler : BaseRequestHandler,
     public async Task<int> Handle(CriarUsuarioCommand request, CancellationToken cancellationToken)
     {
         var senhaCriptografada = _service.CriptografarSenha(request.Senha);
-        var novoUsuario = new Usuario(request.Nome, request.Email, false, senhaCriptografada, request.CPF);
+        var novoUsuario = new Usuario(request.Nome, request.Email, senhaCriptografada, request.CPF);
 
         await _repository.AddAsync(novoUsuario, cancellationToken);
         novoUsuario = await _readRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(novoUsuario.Id), cancellationToken);

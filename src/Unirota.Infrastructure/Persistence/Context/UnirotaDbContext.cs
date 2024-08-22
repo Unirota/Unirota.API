@@ -11,4 +11,10 @@ public class UnirotaDbContext : DbContext
     }
 
     public DbSet<Usuario> Usuarios => Set<Usuario>();
+
+    //protected override void OnModelCreating(ModelBuilder modelBuilder)
+    //{
+    //    modelBuilder.Entity<Usuario>().ToTable("usuarios");
+    //    base.OnModelCreating(modelBuilder);
+    //}
 }

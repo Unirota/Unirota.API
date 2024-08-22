@@ -4,15 +4,15 @@ public abstract class BaseEntity : IEntity
 {
     protected BaseEntity()
     {
-        CreatedAt = DateTime.Now;
+        CreatedAt = DateTime.UtcNow;
     }
 
     protected BaseEntity(int id)
     {
         Id = id;
-        CreatedAt = DateTime.Now;
+        CreatedAt = DateTime.UtcNow;
     }
 
-    public int Id { get; }
+    public int Id { get; protected set; }
     public DateTime CreatedAt { get; private set; }
 }

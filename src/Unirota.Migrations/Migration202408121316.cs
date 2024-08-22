@@ -8,14 +8,14 @@ public class Migration202408121316 : Migration
 {
     public override void Up()
     {
-        Create.Table("usuarios")
+        Create.Table("Usuarios")
             .EntityBase()
-            .WithColumn("nome").AsString().NotNullable()
-            .WithColumn("email").AsString().NotNullable()
-            .WithColumn("habilitacao").AsString().Unique().Nullable()
-            .WithColumn("motorista").AsBoolean().WithDefaultValue(false).NotNullable()
-            .WithColumn("senha").AsString().NotNullable()
-            .WithColumn("cpf").AsString().Unique().NotNullable();
+            .WithColumn("Nome").AsString().NotNullable()
+            .WithColumn("Email").AsString().NotNullable()
+            .WithColumn("Habilitacao").AsString().Unique().Nullable()
+            .WithColumn("Motorista").AsBoolean().WithDefaultValue(false).NotNullable()
+            .WithColumn("Senha").AsString().NotNullable()
+            .WithColumn("CPF").AsString().Unique().NotNullable();
     }
 
     public override void Down()

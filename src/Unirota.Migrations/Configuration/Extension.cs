@@ -7,7 +7,7 @@ public static class Extensions
     public static ICreateTableColumnOptionOrWithColumnSyntax EntityBase(this ICreateTableWithColumnSyntax tableWithColumnSyntax)
     {
         return tableWithColumnSyntax
-                .WithColumn("Id").AsGuid().PrimaryKey()
-                .WithColumn("created_at").AsDateTime().NotNullable();
+                .WithColumn("Id").AsInt32().PrimaryKey().Identity()
+                .WithColumn("CreatedAt").AsDateTime2().NotNullable();
     }
 }

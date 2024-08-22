@@ -11,10 +11,15 @@ public class Usuario : BaseEntity, IAggregateRoot
     public string Senha { get; protected set; }
     public string CPF { get; protected set; }
 
-    public Usuario(string nome, string email, bool motorista, string senha, string cpf)
+    public Usuario()
+    {
+
+    }
+
+    public Usuario(string nome, string email, string senha, string cpf)
     {
         Nome = nome;
-        Motorista = motorista;
+        Motorista = false;
         Email = email;
         Senha = senha;
         CPF = cpf;

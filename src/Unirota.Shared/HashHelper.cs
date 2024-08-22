@@ -15,7 +15,7 @@ public static class HashHelper
         byte[] salt = RandomNumberGenerator.GetBytes(SaltSize);
         byte[] hash = Rfc2898DeriveBytes.Pbkdf2(senha, salt, Iterations, Algorithm, HashSize);
 
-        return $"{Convert.ToHexString(hash)}.{Convert.ToHexString(salt)}";
+        return $"{Convert.ToHexString(hash)}-{Convert.ToHexString(salt)}";
     }
 
     public static bool ValidarSenha(string senha, string hashSenha)

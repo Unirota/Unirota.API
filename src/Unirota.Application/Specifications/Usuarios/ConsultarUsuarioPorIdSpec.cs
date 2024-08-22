@@ -6,6 +6,6 @@ public class ConsultarUsuarioPorIdSpec : Specification<Domain.Entities.Usuarios.
 {
     public ConsultarUsuarioPorIdSpec(int id)
     {
-        Query.Where(usuario => usuario.Id.Equals(id));
+        Query.Where(usuario => usuario.Id == id);
     }
 }

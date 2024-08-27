@@ -6,6 +6,6 @@ public class ConsultarUsuarioPorEmailSpec : Specification<Domain.Entities.Usuari
 {
     public ConsultarUsuarioPorEmailSpec(string email)
     {
-        Query.Where(usuario => usuario.Email.ToLower().Equals(email.ToLower()));
+        Query.Where(usuario => usuario.Email.ToLower() == email.ToLower());
     }
 }

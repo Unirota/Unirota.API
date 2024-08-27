@@ -15,7 +15,8 @@ namespace Unirota.Application.Handlers;
 
 public class UsuarioRequestHandler : BaseRequestHandler,
                                      IRequestHandler<CriarUsuarioCommand, int>,
-                                     IRequestHandler<LoginCommand, TokenViewModel>
+                                     IRequestHandler<LoginCommand, TokenViewModel>,
+                                     IRequestHandler<EditarUsuarioCommand, UsuarioViewModel>
 {
     private readonly IRepository<Usuario> _repository;
     private readonly IReadRepository<Usuario> _readRepository;
@@ -37,7 +38,7 @@ public class UsuarioRequestHandler : BaseRequestHandler,
     public async Task<int> Handle(CriarUsuarioCommand request, CancellationToken cancellationToken)
     {
         var senhaCriptografada = _service.CriptografarSenha(request.Senha);
-        var novoUsuario = new Usuario(request.Nome, request.Email, senhaCriptografada, request.CPF);
+        var novoUsuario = new Usuario(request.Nome, request.Email, senhaCriptografada, request.CPF, request.DataNascimento);
 
         await _repository.AddAsync(novoUsuario, cancellationToken);
         novoUsuario = await _readRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(novoUsuario.Id), cancellationToken);
@@ -62,5 +63,10 @@ public class UsuarioRequestHandler : BaseRequestHandler,
         }
 
         return _jwtProvider.GerarToken(usuario.Adapt<UsuarioViewModel>());
+    }
+
+    public async Task<UsuarioViewModel> Handle(EditarUsuarioCommand request, CancellationToken cancellationToken)
+    {
+        return await _service.Editar(request, cancellationToken);
     }
 }

@@ -6,14 +6,15 @@ using System.Text;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.ViewModels.Auth;
 using Unirota.Application.ViewModels.Usuarios;
+using Unirota.Infrastructure.Auth;
 
-namespace Unirota.Infrastructure.Auth;
+namespace Unirota.Application.Common;
 
 public class JwtProvider : IJwtProvider
 {
     private readonly JwtOptions _options;
 
-    public  JwtProvider(IOptions<JwtOptions> options)
+    public JwtProvider(IOptions<JwtOptions> options)
     {
         _options = options.Value;
     }
@@ -27,7 +28,7 @@ public class JwtProvider : IJwtProvider
         };
 
         var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey)), SecurityAlgorithms.HmacSha256);
-            
+
         var token = new JwtSecurityToken(_options.Issuer, _options.Audience, claims, null, DateTime.UtcNow.AddHours(24), signingCredentials);
 
         var tokenString = new JwtSecurityTokenHandler().WriteToken(token);

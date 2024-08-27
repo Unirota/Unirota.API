@@ -4,6 +4,7 @@ using Unirota.API.Configurations;
 using Unirota.API.OptionsSetup;
 using Unirota.Application;
 using Unirota.Infrastructure;
+using Unirota.Infrastructure.Auth;
 using Unirota.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -56,11 +57,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
+app.UseCors();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors();
+app.UseCurrentUser();
 
 app.MapControllers();
 

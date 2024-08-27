@@ -10,19 +10,22 @@ public class Usuario : BaseEntity, IAggregateRoot
     public bool Motorista { get; protected set; }
     public string Senha { get; protected set; }
     public string CPF { get; protected set; }
+    public DateTime DataNascimento { get; protected set; }
+    public string? ImagemUrl { get; protected set; }
 
     public Usuario()
     {
 
     }
 
-    public Usuario(string nome, string email, string senha, string cpf)
+    public Usuario(string nome, string email, string senha, string cpf, DateTime dataNascimento)
     {
         Nome = nome;
         Motorista = false;
         Email = email;
         Senha = senha;
         CPF = cpf;
+        DataNascimento = dataNascimento;
     }
 
     public Usuario AlterarNome(string nome)
@@ -33,6 +36,18 @@ public class Usuario : BaseEntity, IAggregateRoot
     public Usuario AlterarSenha(string senha)
     {
         Senha = senha;
+        return this;
+    }
+
+    public Usuario AlterarImagem(string imagemUrl)
+    {
+        ImagemUrl = imagemUrl;
+        return this;
+    }
+
+    public Usuario AlterarDataNascimento(DateTime dataNascimento)
+    {
+        DataNascimento = dataNascimento;
         return this;
     }
 }

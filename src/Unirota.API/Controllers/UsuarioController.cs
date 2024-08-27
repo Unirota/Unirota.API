@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Unirota.API.Controllers.Common;
 using Unirota.Application.Commands.Usuarios;
 using Unirota.Application.Services;
@@ -16,6 +17,14 @@ public class UsuarioController : BaseApiController
     [HttpPost]
     public async Task<IActionResult> Criar([FromBody] CriarUsuarioCommand request)
     {
+        return GetResponse(await Mediator.Send(request));
+    }
+
+    [Authorize]
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Editar([FromRoute] int id, EditarUsuarioCommand request)
+    {
+        request.Id = id;
         return GetResponse(await Mediator.Send(request));
     }
 }

@@ -14,6 +14,9 @@ public class Migration202408261910 : Migration
 
     public override void Down()
     {
-        Delete.Column("ImagemUrl").FromTable("Usuarios");
+        Delete
+            .Column("ImagemUrl")
+            .Column("DataNascimento")
+            .FromTable("Usuarios");
     }
 }

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Unirota.Application.Commands.Usuarios;
 
-namespace Unirota.Application.Validations.Usuario;
+namespace Unirota.Application.Validations.Usuarios;
 
 public class CriarUsuarioValidation : AbstractValidator<CriarUsuarioCommand>
 {
@@ -28,5 +28,9 @@ public class CriarUsuarioValidation : AbstractValidator<CriarUsuarioCommand>
             .MinimumLength(11)
             .MaximumLength(11)
             .WithMessage("CPF é obrigatório");
+
+        RuleFor(x => x.DataNascimento)
+            .NotNull()
+            .WithMessage("Data de Nascimento é obrigatório");
     }
 }

@@ -3,10 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Unirota.Application.Commands.Usuarios;
+using Unirota.Application.Common;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Services.Usuarios;
-using Unirota.Application.Validations.Usuario;
-using Unirota.Infrastructure.Auth;
+using Unirota.Application.Validations.Usuarios;
 
 namespace Unirota.Application;
 

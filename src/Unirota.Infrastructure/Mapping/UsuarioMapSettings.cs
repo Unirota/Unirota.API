@@ -1,9 +1,4 @@
 ﻿using Mapster;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unirota.Application.ViewModels.Usuarios;
 using Unirota.Domain.Entities.Usuarios;
 

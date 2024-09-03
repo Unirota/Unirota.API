@@ -1,5 +1,6 @@
 ﻿using Unirota.Application.Commands.Usuarios;
 using Unirota.Application.Common.Interfaces;
+using Unirota.Application.Queries.Usuario;
 using Unirota.Application.ViewModels.Usuarios;
 
 namespace Unirota.Application.Services.Usuarios;
@@ -11,4 +12,6 @@ public interface IUsuarioService : IScopedService
     bool ValidarSenha(string senha, string senhaCriptografada);
 
     Task<UsuarioViewModel?> Editar(EditarUsuarioCommand usuario, CancellationToken cancellationToken);
+
+    Task<UsuarioViewModel?> ConsultarPorId(int usuarioId, CancellationToken cancellationToken);
 }

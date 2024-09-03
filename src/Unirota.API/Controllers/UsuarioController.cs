@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Unirota.API.Controllers.Common;
 using Unirota.Application.Commands.Usuarios;
+using Unirota.Application.Queries.Usuario;
 using Unirota.Application.Services;
 
 namespace Unirota.API.Controllers;
@@ -25,6 +26,12 @@ public class UsuarioController : BaseApiController
     public async Task<IActionResult> Editar([FromRoute] int id, EditarUsuarioCommand request)
     {
         request.Id = id;
+        return GetResponse(await Mediator.Send(request));
+    }
+
+   [HttpGet("{id}")]
+    public async Task<IActionResult> ObterPorId(ConsultarUsuarioPorIdQuery request)
+    {
         return GetResponse(await Mediator.Send(request));
     }
 }

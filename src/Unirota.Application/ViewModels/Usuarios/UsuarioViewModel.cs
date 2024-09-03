@@ -5,6 +5,8 @@ public class UsuarioViewModel
     public int Id { get; set; }
     public string Nome { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public string? Habilitacao { get; set; }
-    public string? CPF { get; set; }
+    
+    public bool Motorista { get; set; }
+    
+    public DateTime DataNascimento { get; set; }
 }

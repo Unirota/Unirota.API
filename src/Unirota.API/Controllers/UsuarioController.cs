@@ -28,8 +28,9 @@ public class UsuarioController : BaseApiController
         request.Id = id;
         return GetResponse(await Mediator.Send(request));
     }
-
-   [HttpGet("{id}")]
+    
+    [Authorize]
+    [HttpGet("{id}")]
     public async Task<IActionResult> ObterPorId(ConsultarUsuarioPorIdQuery request)
     {
         return GetResponse(await Mediator.Send(request));

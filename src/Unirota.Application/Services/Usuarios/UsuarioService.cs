@@ -2,6 +2,7 @@
 using Unirota.Application.Commands.Usuarios;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Persistence;
+using Unirota.Application.Queries.Usuario;
 using Unirota.Application.Specifications.Usuarios;
 using Unirota.Application.ViewModels.Usuarios;
 using Unirota.Domain.Entities.Usuarios;
@@ -81,5 +82,18 @@ public class UsuarioService : IUsuarioService
         await _repository.SaveChangesAsync(cancellationToken);
 
         return usuarioDb.Adapt<UsuarioViewModel>();
+    }
+
+    public async Task<UsuarioViewModel?> ConsultarPorId(int usuarioId, CancellationToken cancellationToken)
+    {
+        var usuario = await _repository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(usuarioId), cancellationToken);
+        
+        if (usuario is null)
+        {
+            _serviceContext.AddError("Usuário não existente");
+            return null;
+        }
+
+        return usuario.Adapt<UsuarioViewModel>();
     }
 }

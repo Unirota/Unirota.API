@@ -4,6 +4,7 @@ using Unirota.Application.Commands.Usuarios;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Handlers.Common;
 using Unirota.Application.Persistence;
+using Unirota.Application.Queries.Usuario;
 using Unirota.Application.Services;
 using Unirota.Application.Services.Usuarios;
 using Unirota.Application.Specifications.Usuarios;
@@ -16,7 +17,8 @@ namespace Unirota.Application.Handlers;
 public class UsuarioRequestHandler : BaseRequestHandler,
                                      IRequestHandler<CriarUsuarioCommand, int>,
                                      IRequestHandler<LoginCommand, TokenViewModel>,
-                                     IRequestHandler<EditarUsuarioCommand, UsuarioViewModel>
+                                     IRequestHandler<EditarUsuarioCommand, UsuarioViewModel>,
+                                     IRequestHandler<ConsultarUsuarioPorIdQuery, UsuarioViewModel>
 {
     private readonly IRepository<Usuario> _repository;
     private readonly IReadRepository<Usuario> _readRepository;
@@ -68,5 +70,10 @@ public class UsuarioRequestHandler : BaseRequestHandler,
     public async Task<UsuarioViewModel> Handle(EditarUsuarioCommand request, CancellationToken cancellationToken)
     {
         return await _service.Editar(request, cancellationToken);
+    }
+
+    public async Task<UsuarioViewModel> Handle(ConsultarUsuarioPorIdQuery request, CancellationToken cancellationToken)
+    {
+        return await _service.ConsultarPorId(request.Id, cancellationToken);
     }
 }

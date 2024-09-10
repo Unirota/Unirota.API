@@ -7,6 +7,7 @@ using Unirota.Application.Services;
 namespace Unirota.API.Controllers;
 
 [Route("api/[controller]")]
+[Authorize]
 [ApiController]
 public class ConviteController : BaseApiController
 {

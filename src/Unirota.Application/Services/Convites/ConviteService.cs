@@ -1,6 +1,7 @@
 ﻿using Unirota.Application.Commands.Usuarios;
 using Unirota.Application.Persistence;
 using Unirota.Domain.Entities.Covites;
+using Unirota.Domain.Entities.Usuarios;
 
 namespace Unirota.Application.Services.Convites;
 

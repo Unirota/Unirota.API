@@ -3,6 +3,7 @@ using Unirota.Application.Commands.Usuarios;
 using Unirota.Application.Handlers.Common;
 using Unirota.Application.Persistence;
 using Unirota.Application.Queries.Convite;
+
 using Unirota.Application.Services;
 using Unirota.Application.Services.Convites;
 using Unirota.Application.Specifications.Usuarios;
@@ -39,6 +40,7 @@ public class ConviteRequestHandler : BaseRequestHandler,
             ServiceContext.AddError("Motorista não encontrado");
             return default;
         }
+
         if (motorista.Habilitacao is null)
         {
             ServiceContext.AddError("Motorista informado não possui habilitação cadastrada");
@@ -73,5 +75,6 @@ public class ConviteRequestHandler : BaseRequestHandler,
         await _service.Cancelar(convite);
         return true;
     }
+
 }
 

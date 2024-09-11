@@ -21,5 +21,10 @@ public class ConviteService :IConviteService
         return convite.Id;
     }
 
+    public async Task Cancelar(Convite convite)
+    {
+        await _repository.DeleteAsync(convite);
+    }
+
 }
 

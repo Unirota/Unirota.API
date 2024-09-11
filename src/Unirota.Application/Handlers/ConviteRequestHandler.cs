@@ -1,16 +1,20 @@
 ﻿using MediatR;
+using Unirota.Application.Commands.Convites;
 using Unirota.Application.Commands.Usuarios;
 using Unirota.Application.Handlers.Common;
 using Unirota.Application.Persistence;
+
 using Unirota.Application.Services;
 using Unirota.Application.Services.Convites;
+using Unirota.Application.Specifications.Convites;
 using Unirota.Application.Specifications.Usuarios;
 using Unirota.Domain.Entities.Covites;
 using Unirota.Domain.Entities.Usuarios;
 
 namespace Unirota.Application.Handlers;
 public class ConviteRequestHandler : BaseRequestHandler,
-    IRequestHandler<CriarConviteCommand, int>
+    IRequestHandler<CriarConviteCommand, int>,
+    IRequestHandler<CancelarConvitePorIdCommand, bool>
 {
     private readonly IRepository<Convite> _repository;
     private readonly IReadRepository<Convite> _readRepository;
@@ -37,7 +41,8 @@ public class ConviteRequestHandler : BaseRequestHandler,
             ServiceContext.AddError("Motorista não encontrado");
             return default;
         }
-        if(motorista.Habilitacao is null)
+
+        if (motorista.Habilitacao is null)
         {
             ServiceContext.AddError("Motorista informado não possui habilitação cadastrada");
             return default;
@@ -53,5 +58,24 @@ public class ConviteRequestHandler : BaseRequestHandler,
         var convite = await _service.Criar(request);
         return convite;
     }
+
+    public async Task<bool> Handle(CancelarConvitePorIdCommand request, CancellationToken cancellationToken)
+    {
+        var convite = await _repository.FirstOrDefaultAsync(new ConsultarConvitePorIdSpec(request.Id), cancellationToken);
+        if (convite is null)
+        {
+            ServiceContext.AddError("Convite não encontrado");
+            return false;
+        }
+        if (convite.Aceito)
+        {
+            ServiceContext.AddError("Não é possível cancelar um convite que já foi aceito");
+            return false;
+        }
+
+        await _service.Cancelar(convite);
+        return true;
+    }
+
 }
 

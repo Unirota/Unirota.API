@@ -1,4 +1,5 @@
 ﻿using Unirota.Domain.Common.Contracts;
+using Unirota.Domain.Entities.Grupos;
 
 namespace Unirota.Domain.Entities.Usuarios;
 
@@ -12,6 +13,9 @@ public class Usuario : BaseEntity, IAggregateRoot
     public string CPF { get; protected set; }
     public DateTime DataNascimento { get; protected set; }
     public string? ImagemUrl { get; protected set; }
+    
+    private readonly List<Grupo> _grupos = [];
+    public IReadOnlyList<Grupo> Grupos => _grupos.AsReadOnly();
 
     public Usuario()
     {
@@ -48,6 +52,12 @@ public class Usuario : BaseEntity, IAggregateRoot
     public Usuario AlterarDataNascimento(DateTime dataNascimento)
     {
         DataNascimento = dataNascimento;
+        return this;
+    }
+
+    public Usuario AdicionarGrupo(Grupo grupo)
+    {
+        _grupos.Add(grupo);
         return this;
     }
 }

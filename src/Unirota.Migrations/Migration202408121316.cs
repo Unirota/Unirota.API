@@ -15,6 +15,8 @@ public class Migration202408121316 : Migration
             .WithColumn("Habilitacao").AsString().Unique().Nullable()
             .WithColumn("Motorista").AsBoolean().WithDefaultValue(false).NotNullable()
             .WithColumn("Senha").AsString().NotNullable()
+            .WithColumn("ImagemUrl").AsString().Nullable()
+            .WithColumn("DataNascimento").AsDateTime2().NotNullable()
             .WithColumn("CPF").AsString().Unique().NotNullable();
     }
 

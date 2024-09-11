@@ -6,5 +6,5 @@ public class CriarConviteCommand : IRequest<int>
 {
     public int UsuarioId { get; set; }
     public int MotoristaId { get; set; }
-    public int GrupoId { get; set; }
+    public int GrupoId { get; set; } 
 }

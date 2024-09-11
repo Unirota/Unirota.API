@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unirota.API.Controllers.Common;
+using Unirota.Application.Commands.Convites;
 using Unirota.Application.Commands.Usuarios;
-using Unirota.Application.Queries.Convite;
 
 using Unirota.Application.Services;
 
@@ -24,7 +24,7 @@ public class ConviteController : BaseApiController
     }
 
     [HttpDelete("cancelar/{id}")]
-    public async Task<IActionResult> Cancelar(ConsultarConvitePorIdQuery request)
+    public async Task<IActionResult> Cancelar(CancelarConvitePorIdCommand request)
     {
         return GetResponse(await Mediator.Send(request));
     }

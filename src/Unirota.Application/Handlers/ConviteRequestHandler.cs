@@ -1,11 +1,12 @@
 ﻿using MediatR;
+using Unirota.Application.Commands.Convites;
 using Unirota.Application.Commands.Usuarios;
 using Unirota.Application.Handlers.Common;
 using Unirota.Application.Persistence;
-using Unirota.Application.Queries.Convite;
 
 using Unirota.Application.Services;
 using Unirota.Application.Services.Convites;
+using Unirota.Application.Specifications.Convites;
 using Unirota.Application.Specifications.Usuarios;
 using Unirota.Domain.Entities.Covites;
 using Unirota.Domain.Entities.Usuarios;
@@ -13,7 +14,7 @@ using Unirota.Domain.Entities.Usuarios;
 namespace Unirota.Application.Handlers;
 public class ConviteRequestHandler : BaseRequestHandler,
     IRequestHandler<CriarConviteCommand, int>,
-    IRequestHandler<ConsultarConvitePorIdQuery, bool>
+    IRequestHandler<CancelarConvitePorIdCommand, bool>
 {
     private readonly IRepository<Convite> _repository;
     private readonly IReadRepository<Convite> _readRepository;
@@ -58,9 +59,9 @@ public class ConviteRequestHandler : BaseRequestHandler,
         return convite;
     }
 
-    public async Task<bool> Handle(ConsultarConvitePorIdQuery request, CancellationToken cancellation)
+    public async Task<bool> Handle(CancelarConvitePorIdCommand request, CancellationToken cancellationToken)
     {
-        var convite = await _repository.GetByIdAsync(request.Id);
+        var convite = await _repository.FirstOrDefaultAsync(new ConsultarConvitePorIdSpec(request.Id), cancellationToken);
         if (convite is null)
         {
             ServiceContext.AddError("Convite não encontrado");

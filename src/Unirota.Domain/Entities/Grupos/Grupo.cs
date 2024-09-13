@@ -37,16 +37,13 @@ public class Grupo : BaseEntity, IAggregateRoot
         return this;
     }
 
-    //public Grupo AdicionarPassageiro(Usuario usuario)
-    //{
-    //    _passageiros.Add(usuario);
-    //    usuario.AdicionarGrupo(this);
-    //    return this;
-    //}
-
-    //public Grupo RemoverPassageiro(Usuario usuario)
-    //{
-    //    _passageiros.Remove(usuario);
-    //    return this;
-    //}
+    public Grupo AdicionarPassageiro(Usuario usuario)
+    {
+        Passageiros.Add(new UsuariosGrupo
+        {
+            UsuarioId = usuario.Id,
+            GrupoId = Id
+        });
+        return this;
+    }
 }

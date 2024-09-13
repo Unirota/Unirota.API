@@ -36,11 +36,11 @@ public class GrupoRequestHandler : BaseRequestHandler,
             return default;
         }
 
-        //if (motorista.Habilitacao is null)
-        //{
-        //    ServiceContext.AddError("Motorista informado não possui habilitação cadastrada");
-        //    return default;
-        //}
+        if (motorista.Habilitacao is null)
+        {
+            ServiceContext.AddError("Motorista informado não possui habilitação cadastrada");
+            return default;
+        }
 
         var grupo = await _service.Criar(request, motorista.Id);
         return grupo;

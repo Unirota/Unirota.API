@@ -13,9 +13,13 @@ public class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
 
         builder.HasKey(x => x.Id);
 
-        builder
-            .HasMany(x => x.Grupos)
-            .WithMany(x => x.Passageiros)
-            .UsingEntity<UsuariosGrupo>(x => x.ToTable("UsuariosGrupo"));
+        builder.HasMany(u => u.GruposComoPassageiro)
+            .WithOne(ug => ug.Usuario)
+            .HasForeignKey(ug => ug.UsuarioId);
+
+        builder.HasMany(u => u.GruposComoMotorista)
+            .WithOne(g => g.Motorista)
+            .HasForeignKey(g => g.MotoristaId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -1,9 +1,10 @@
-﻿using Unirota.Domain.Entities.Grupos;
+﻿using Unirota.Domain.Common.Contracts;
+using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.Usuarios;
 
 namespace Unirota.Domain.Entities.UsuariosGrupos;
 
-public class UsuariosGrupo
+public class UsuariosGrupo : BaseEntity, IAggregateRoot
 {
     public int UsuarioId { get; set; }
     public Usuario Usuario { get; set; }

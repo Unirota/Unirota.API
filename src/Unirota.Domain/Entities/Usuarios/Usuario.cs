@@ -13,9 +13,9 @@ public class Usuario : BaseEntity, IAggregateRoot
     public string CPF { get; protected set; }
     public DateTime DataNascimento { get; protected set; }
     public string? ImagemUrl { get; protected set; }
-    public ICollection<UsuariosGrupo> UsuariosGrupos { get; private set; } = new List<UsuariosGrupo>();
+    public ICollection<UsuariosGrupo> GruposComoPassageiro { get; private set; } = [];
 
-    public IReadOnlyList<Grupo> Grupos => UsuariosGrupos.Select(ug => ug.Grupo).ToList().AsReadOnly();
+    public ICollection<Grupo> GruposComoMotorista { get; private set; } = [];
 
 
     public Usuario()
@@ -55,9 +55,9 @@ public class Usuario : BaseEntity, IAggregateRoot
         return this;
     }
 
-    //public Usuario AdicionarGrupo(Grupo grupo)
-    //{
-    //    usuario.Add(grupo);
-    //    return this;
-    //}
+    public Usuario AdicionarGrupo(Grupo grupo)
+    {
+        GruposComoMotorista.Add(grupo);
+        return this;
+    }
 }

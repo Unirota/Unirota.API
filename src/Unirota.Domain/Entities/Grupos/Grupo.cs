@@ -13,11 +13,7 @@ public class Grupo : BaseEntity, IAggregateRoot
     public string? ImagemUrl { get; protected set; }
     public DateTime HoraInicio { get; protected set; }
     public string? Descricao { get; protected set; }
-    public ICollection<UsuariosGrupo> UsuariosGrupos { get; private set; } = new List<UsuariosGrupo>();
-
-    // Read-only list of Usuarios in the Grupo
-    public IReadOnlyList<Usuario> Passageiros => UsuariosGrupos.Select(ug => ug.Usuario).ToList().AsReadOnly();
-
+    public ICollection<UsuariosGrupo> Passageiros { get; private set; } = new List<UsuariosGrupo>();
 
     public Grupo() { }
 

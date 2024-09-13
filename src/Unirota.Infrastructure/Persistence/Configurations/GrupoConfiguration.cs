@@ -12,10 +12,13 @@ public class GrupoConfiguration : IEntityTypeConfiguration<Grupo>
 
         builder.HasKey(x => x.Id);
 
-        builder
-            .HasOne(x => x.Motorista)
-            .WithMany()
-            .HasForeignKey(x => x.MotoristaId)
+        builder.HasOne(g => g.Motorista)
+            .WithMany(u => u.GruposComoMotorista)
+            .HasForeignKey(g => g.MotoristaId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasMany(g => g.Passageiros)
+            .WithOne(ug => ug.Grupo)
+            .HasForeignKey(ug => ug.GrupoId);
     }
 }

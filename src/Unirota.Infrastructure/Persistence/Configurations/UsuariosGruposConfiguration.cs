@@ -10,17 +10,19 @@ public class UsuariosGruposConfiguration : IEntityTypeConfiguration<UsuariosGrup
     {
         builder.ToTable("UsuariosGrupo");
 
-        builder
-            .HasKey(ug => new { ug.UsuarioId, ug.GrupoId });
+        builder.HasKey(x => x.Id);
 
         builder
-            .HasOne(ug => ug.Usuario)
-            .WithMany(u => u.UsuariosGrupos)
-            .HasForeignKey(ug => ug.UsuarioId);
+           .HasOne(ug => ug.Usuario)
+           .WithMany(u => u.GruposComoPassageiro)
+           .HasForeignKey(ug => ug.UsuarioId)
+           .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .HasOne(ug => ug.Grupo)
-            .WithMany(u => u.UsuariosGrupos)
-            .HasForeignKey(ug => ug.GrupoId);
+            .WithMany(g => g.Passageiros)
+            .HasForeignKey(ug => ug.GrupoId)
+            .OnDelete(DeleteBehavior.Cascade);
+
     }
 }

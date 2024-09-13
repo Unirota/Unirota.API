@@ -22,6 +22,6 @@ public class Migration202408121316 : Migration
 
     public override void Down()
     {
-        Delete.Table("usuarios");
+        Delete.Table("Usuarios");
     }
 }

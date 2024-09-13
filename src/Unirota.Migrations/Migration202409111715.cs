@@ -3,7 +3,7 @@ using Unirota.Migrations.Configuration;
 
 namespace Unirota.Migrations;
 
-[Migration(20240911171)]
+[Migration(202409111715)]
 public class Migration202409111715 : Migration
 {
     public override void Up()
@@ -14,6 +14,7 @@ public class Migration202409111715 : Migration
             .WithColumn("MotoristaId").AsInt32().NotNullable().ForeignKey("Usuarios", "Id")
             .WithColumn("PassageiroLimite").AsInt32().NotNullable()
             .WithColumn("ImagemUrl").AsString().Nullable()
+            .WithColumn("Descricao").AsString().Nullable()
             .WithColumn("HoraInicio").AsDateTime2().NotNullable();
     }
 

@@ -13,8 +13,9 @@ public class GrupoConfiguration : IEntityTypeConfiguration<Grupo>
         builder.HasKey(x => x.Id);
 
         builder
-            .HasMany(x => x.Passageiros)
-            .WithMany(x => x.Grupos)
-            .UsingEntity(x => x.ToTable("UsuariosGrupo"));
+            .HasOne(x => x.Motorista)
+            .WithMany()
+            .HasForeignKey(x => x.MotoristaId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

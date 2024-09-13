@@ -1,5 +1,6 @@
 ﻿using Unirota.Domain.Common.Contracts;
 using Unirota.Domain.Entities.Grupos;
+using Unirota.Domain.Entities.UsuariosGrupos;
 
 namespace Unirota.Domain.Entities.Usuarios;
 
@@ -8,14 +9,14 @@ public class Usuario : BaseEntity, IAggregateRoot
     public string Nome { get; protected set; }
     public string Email { get; protected set; }
     public string? Habilitacao { get; protected set; }
-    public bool Motorista { get; protected set; }
     public string Senha { get; protected set; }
     public string CPF { get; protected set; }
     public DateTime DataNascimento { get; protected set; }
     public string? ImagemUrl { get; protected set; }
-    
-    private readonly List<Grupo> _grupos = [];
-    public IReadOnlyList<Grupo> Grupos => _grupos.AsReadOnly();
+    public ICollection<UsuariosGrupo> UsuariosGrupos { get; private set; } = new List<UsuariosGrupo>();
+
+    public IReadOnlyList<Grupo> Grupos => UsuariosGrupos.Select(ug => ug.Grupo).ToList().AsReadOnly();
+
 
     public Usuario()
     {
@@ -25,7 +26,6 @@ public class Usuario : BaseEntity, IAggregateRoot
     public Usuario(string nome, string email, string senha, string cpf, DateTime dataNascimento)
     {
         Nome = nome;
-        Motorista = false;
         Email = email;
         Senha = senha;
         CPF = cpf;
@@ -55,9 +55,9 @@ public class Usuario : BaseEntity, IAggregateRoot
         return this;
     }
 
-    public Usuario AdicionarGrupo(Grupo grupo)
-    {
-        _grupos.Add(grupo);
-        return this;
-    }
+    //public Usuario AdicionarGrupo(Grupo grupo)
+    //{
+    //    usuario.Add(grupo);
+    //    return this;
+    //}
 }

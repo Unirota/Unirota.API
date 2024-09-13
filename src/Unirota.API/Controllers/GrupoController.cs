@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unirota.API.Controllers.Common;
 using Unirota.Application.Commands.Grupos;
@@ -15,6 +16,7 @@ public class GrupoController : BaseApiController
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> Criar([FromBody] CriarGrupoCommand request)
     {
         return GetResponse(await Mediator.Send(request));

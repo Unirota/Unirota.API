@@ -1,4 +1,4 @@
-﻿using Ardalis.Specification;
+using Ardalis.Specification;
 using Unirota.Domain.Entities.Covites;
 
 namespace Unirota.Application.Specifications.Convites;

@@ -20,5 +20,11 @@ public class Convite : BaseEntity, IAggregateRoot
         MotoristaId = motoristaId;
         GrupoId = grupoId;
     }
+
+    public Convite AceitarConvite()
+    {
+        Aceito = true;
+        return this;
+    }
 }
 

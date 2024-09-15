@@ -13,6 +13,7 @@ using Unirota.Domain.Entities.Usuarios;
 
 namespace Unirota.Application.Handlers;
 public class ConviteRequestHandler : BaseRequestHandler,
+    IRequestHandler<AceitarConviteCommand, bool>,
     IRequestHandler<CriarConviteCommand, int>,
     IRequestHandler<CancelarConvitePorIdCommand, bool>
 {
@@ -77,5 +78,10 @@ public class ConviteRequestHandler : BaseRequestHandler,
         return true;
     }
 
+
+    public async Task<bool> Handle(AceitarConviteCommand request, CancellationToken cancellationToken)
+    {
+        return await _service.Aceitar(request);
+    }
 }
 

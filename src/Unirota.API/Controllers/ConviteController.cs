@@ -28,4 +28,10 @@ public class ConviteController : BaseApiController
     {
         return GetResponse(await Mediator.Send(request));
     }
+
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> Aceitar(AceitarConviteCommand request)
+    {
+        return GetResponse(await Mediator.Send(request));
+    }
 }

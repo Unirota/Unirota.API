@@ -13,8 +13,8 @@ public static class UsuarioMapSettings
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.Nome, src => src.Nome)
             .Map(dest => dest.Email, src => src.Email)
-            .Map(dest => dest.Habilitacao, src => src.Habilitacao)
-            .Map(dest => dest.CPF, src => src.CPF);
+            .Map(dest => dest.Motorista, src => !string.IsNullOrEmpty(src.Habilitacao))
+            .Map(dest => dest.DataNascimento, src => src.DataNascimento);
 
     }
 }

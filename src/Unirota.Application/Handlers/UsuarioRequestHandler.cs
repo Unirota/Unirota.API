@@ -42,11 +42,19 @@ public class UsuarioRequestHandler : BaseRequestHandler,
         var senhaCriptografada = _service.CriptografarSenha(request.Senha);
         var novoUsuario = new Usuario(request.Nome, request.Email, senhaCriptografada, request.CPF, request.DataNascimento);
 
+        string cpfValidationResult = _service.ValidarCpf(request.CPF);
+        if (cpfValidationResult != "Ok")
+        {
+            ServiceContext.AddError(cpfValidationResult);
+            return default;
+        }
+    
         await _repository.AddAsync(novoUsuario, cancellationToken);
         novoUsuario = await _readRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(novoUsuario.Id), cancellationToken);
-        
+    
         return novoUsuario.Id;
     }
+
 
     public async Task<TokenViewModel?> Handle(LoginCommand request, CancellationToken cancellationToken)
     {

@@ -10,6 +10,7 @@ public interface IUsuarioService : IScopedService
     string CriptografarSenha(string senha);
 
     bool ValidarSenha(string senha, string senhaCriptografada);
+    string ValidarCpf(string cpf);
 
     Task<UsuarioViewModel?> Editar(EditarUsuarioCommand usuario, CancellationToken cancellationToken);
 

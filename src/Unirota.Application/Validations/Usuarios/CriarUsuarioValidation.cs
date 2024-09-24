@@ -27,7 +27,7 @@ public class CriarUsuarioValidation : AbstractValidator<CriarUsuarioCommand>
             .NotEmpty()
             .MinimumLength(11)
             .MaximumLength(11)
-            .WithMessage("CPF é obrigatório");
+            .WithMessage("CPF é tem que ter 11 caracteres");
 
         RuleFor(x => x.DataNascimento)
             .NotNull()

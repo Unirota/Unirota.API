@@ -1,0 +1,11 @@
+﻿using Unirota.Application.Commands.Grupos;
+using Unirota.Application.Common.Interfaces;
+using Unirota.Domain.Entities.Grupos;
+
+namespace Unirota.Application.Services.Grupos;
+
+public interface IGrupoService : IScopedService
+{
+    public Task<int> Criar(CriarGrupoCommand dto, int motoristaId);
+    public Task<bool> Deletar(DeletarGrupoCommand dto, Grupo grupo);
+}

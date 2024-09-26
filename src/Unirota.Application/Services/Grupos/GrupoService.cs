@@ -1,6 +1,7 @@
 ﻿using Unirota.Application.Commands.Grupos;
 using Unirota.Application.Persistence;
 using Unirota.Domain.Entities.Grupos;
+using Unirota.Application.Services.Grupos;
 
 namespace Unirota.Application.Services.Grupos;
 
@@ -29,5 +30,11 @@ internal class GrupoService : IGrupoService
 
         await _repository.AddAsync(grupo);
         return grupo.Id;
+    }
+
+    public async Task<bool> Deletar(DeletarGrupoCommand dto, Grupo grupo)
+    {
+        await _repository.DeleteAsync(grupo);
+        return true;
     }
 }

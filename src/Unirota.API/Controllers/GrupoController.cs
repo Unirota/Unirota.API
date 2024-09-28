@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unirota.API.Controllers.Common;
 using Unirota.Application.Commands.Grupos;
+using Unirota.Application.Commands.SolicitarEntrada;
 using Unirota.Application.Services;
 
 namespace Unirota.API.Controllers;

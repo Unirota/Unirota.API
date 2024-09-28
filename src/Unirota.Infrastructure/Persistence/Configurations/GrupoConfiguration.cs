@@ -20,5 +20,9 @@ public class GrupoConfiguration : IEntityTypeConfiguration<Grupo>
         builder.HasMany(g => g.Passageiros)
             .WithOne(ug => ug.Grupo)
             .HasForeignKey(ug => ug.GrupoId);
+
+        builder.HasMany(u => u.SolicitacoesDeEntrada)
+            .WithOne(h => h.Grupo)
+            .HasForeignKey(j => j.GrupoId);
     }
 }

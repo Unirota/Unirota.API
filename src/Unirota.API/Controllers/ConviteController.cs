@@ -34,4 +34,10 @@ public class ConviteController : BaseApiController
     {
         return GetResponse(await Mediator.Send(request));
     }
+
+    [HttpDelete("recusar/{Id}")]
+    public async Task<IActionResult> Recusar(RecusarConviteCommand request)
+    {
+        return GetResponse(await Mediator.Send(request));
+    }
 }

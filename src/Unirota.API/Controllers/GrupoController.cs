@@ -22,4 +22,12 @@ public class GrupoController : BaseApiController
     {
         return GetResponse(await Mediator.Send(request));
     }
+
+    [HttpDelete("{Id}")]
+    [Authorize]
+    public async Task<IActionResult> Deletar( DeletarGrupoCommand request)
+    {
+        return GetResponse(await Mediator.Send(request));
+    }
+
 }

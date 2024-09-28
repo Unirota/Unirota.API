@@ -1,15 +1,13 @@
 using Ardalis.Specification;
-using Unirota.Domain.Entities.Grupos;
 
-namespace Unirota.Application.Specifications.Grupos
+namespace Unirota.Application.Specifications.Grupos;
+
+public class ConsultarGrupoPorIdSpec : Specification<Domain.Entities.Grupos.Grupo>, ISingleResultSpecification
 {
-    public class ConsultarGrupoPorIdSpec : Specification<Grupo>, ISingleResultSpecification
+    public ConsultarGrupoPorIdSpec(int id)
     {
-        public ConsultarGrupoPorIdSpec(int id)
-        {
-            Query
-                .Where(grupo => grupo.Id == id)
-                .AsNoTracking();
-        }
+        Query
+            .Where(grupo => grupo.Id == id)
+            .AsNoTracking();
     }
 }

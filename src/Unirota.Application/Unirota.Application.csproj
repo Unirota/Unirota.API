@@ -26,4 +26,8 @@
     <Folder Include="Queries\Convite\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Handlers\SolicitarEntradaHandler.cs" />
+  </ItemGroup>
+
 </Project>

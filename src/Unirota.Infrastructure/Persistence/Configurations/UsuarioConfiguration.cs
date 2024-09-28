@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Components.RenderTree;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Unirota.Domain.Entities.Usuarios;
 using Unirota.Domain.Entities.UsuariosGrupos;
@@ -21,5 +22,10 @@ public class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
             .WithOne(g => g.Motorista)
             .HasForeignKey(g => g.MotoristaId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasMany(u => u.SolicitacoesDeEntrada)
+            .WithOne(g => g.Usuario)
+            .HasForeignKey(h => h.UsuarioId);
+
     }
 }

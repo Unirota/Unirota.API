@@ -1,20 +1,25 @@
 ﻿using MediatR;
 using Unirota.Application.Commands.Grupos;
+using Unirota.Application.Commands.Grupos.ObterGrupoUsuario;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Handlers.Common;
 using Unirota.Application.Persistence;
 using Unirota.Application.Services;
 using Unirota.Application.Services.Grupos;
 using Unirota.Application.Specifications.Usuarios;
+using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.Usuarios;
 
 namespace Unirota.Application.Handlers;
 
 public class GrupoRequestHandler : BaseRequestHandler,
-                                   IRequestHandler<CriarGrupoCommand, int>
+
+                                   IRequestHandler<CriarGrupoCommand, int>,
+                                   //IRequestHandler<ObterGrupoUsuarioCommand, Grupo>
 {
     private readonly ICurrentUser _currentUser;
     private readonly IReadRepository<Usuario> _readUserRepository;
+    //private readonly IReadRepository<Grupo> _readGrupoRepository;
     private readonly IGrupoService _service;
 
     public GrupoRequestHandler(IServiceContext serviceContext,
@@ -44,5 +49,10 @@ public class GrupoRequestHandler : BaseRequestHandler,
 
         var grupo = await _service.Criar(request, motorista.Id);
         return grupo;
+    }
+
+    public async Task<Grupo> Handle(ObterGrupoUsuarioCommand request, CancellationToken cancellationToken)
+    {
+        var usuario = await _readUserRepository.
     }
 }

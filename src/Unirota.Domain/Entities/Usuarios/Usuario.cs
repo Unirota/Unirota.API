@@ -60,4 +60,9 @@ public class Usuario : BaseEntity, IAggregateRoot
         GruposComoMotorista.Add(grupo);
         return this;
     }
+
+    public ICollection<Grupo> RetornarGruposMotorista()
+    {
+        return GruposComoMotorista;
+    }
 }

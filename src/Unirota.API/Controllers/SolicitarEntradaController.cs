@@ -22,17 +22,6 @@ public class SolicitacaoEntradaController : BaseApiController
     [Authorize]
     public async Task<IActionResult> SolicitarEntrada([FromBody] SolicitarEntradaGrupoCommand command)
     {
-        if (command.GrupoId == 0)
-        {
-            return BadRequest("GrupoId inválido");
-        }
-        
-        var userId = _currentUser.GetUserId();
-        if (userId == 0)
-        {
-            return Unauthorized("Usuário não autenticado");
-        }
-
         return GetResponse(await Mediator.Send(command));
     }
 }

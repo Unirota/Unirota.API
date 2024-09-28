@@ -41,6 +41,12 @@ public class SolicitarEntradaRequestHandler : BaseRequestHandler,
 
     public async Task<bool> Handle(SolicitarEntradaGrupoCommand request, CancellationToken cancellationToken)
     {
+        if (request.GrupoId == 0)
+        {
+            ServiceContext.AddError("GrupoId inválido");
+            return false;
+        }
+        
         var usuario = await _readUserRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(_currentUser.GetUserId()), cancellationToken);
         if (usuario is null)
         {

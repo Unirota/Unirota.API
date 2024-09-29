@@ -5,7 +5,7 @@ using Unirota.Application.Handlers.Common;
 using Unirota.Application.Persistence;
 using Unirota.Application.Services;
 using Unirota.Application.Services.Grupos;
-using Unirota.Application.Specifications.Grupo;
+using Unirota.Application.Specifications.Grupos;
 using Unirota.Application.Specifications.Usuarios;
 using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.Usuarios;

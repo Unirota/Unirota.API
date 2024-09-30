@@ -6,6 +6,7 @@ using Unirota.Application.Handlers.Common;
 using Unirota.Application.Persistence;
 using Unirota.Application.Services;
 using Unirota.Application.Services.Grupos;
+using Unirota.Application.Specifications.Grupos;
 using Unirota.Application.Specifications.Usuarios;
 using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.Usuarios;
@@ -13,13 +14,14 @@ using Unirota.Domain.Entities.Usuarios;
 namespace Unirota.Application.Handlers;
 
 public class GrupoRequestHandler : BaseRequestHandler,
-
                                    IRequestHandler<CriarGrupoCommand, int>,
+                                   IRequestHandler<DeletarGrupoCommand, bool>,
+                                   IRequestHandler<ObterGrupoUsuarioCommand, ICollection<Grupo>>
                                    //IRequestHandler<ObterGrupoUsuarioCommand, Grupo>
 {
     private readonly ICurrentUser _currentUser;
     private readonly IReadRepository<Usuario> _readUserRepository;
-    //private readonly IReadRepository<Grupo> _readGrupoRepository;
+    private readonly IReadRepository<Grupo> _readGrupoRepository;
     private readonly IGrupoService _service;
 
     public GrupoRequestHandler(IServiceContext serviceContext,
@@ -51,8 +53,21 @@ public class GrupoRequestHandler : BaseRequestHandler,
         return grupo;
     }
 
-    public async Task<Grupo> Handle(ObterGrupoUsuarioCommand request, CancellationToken cancellationToken)
+    public async Task<ICollection<Grupo>> Handle(ObterGrupoUsuarioCommand request, CancellationToken cancellationToken)
     {
-        var usuario = await _readUserRepository.
+        var usuario = await _readUserRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(_currentUser.GetUserId()), cancellationToken);
+
+        if (usuario is null)
+        {
+            throw new Exception("Usuário não encontrado");
+        }
+
+        if(usuario.GruposComoMotorista is null)
+        {
+            throw new Exception("Este usuário não tem grupos");
+        }
+
+        await _service.ObterPorUsuarioId(usuario.Id);
+        return usuario.RetornarGruposMotorista();
     }
 }

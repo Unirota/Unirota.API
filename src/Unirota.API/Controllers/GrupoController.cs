@@ -23,10 +23,11 @@ public class GrupoController : BaseApiController
         return GetResponse(await Mediator.Send(request));
     }
 
-    [HttpGet]
+    [HttpGet("/Usuario/{Id}")]
     [Authorize]
     public async Task<IActionResult> Obter(ObterGrupoUsuarioCommand request)
     {
         return GetResponse(await Mediator.Send(request));
     }
+
 }

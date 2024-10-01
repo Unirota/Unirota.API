@@ -14,5 +14,4 @@ public interface IGrupoService : IScopedService
     public Task<bool> VerificarGrupoAtingiuLimiteUsuarios(int grupoId);
     public Task<bool> Deletar(DeletarGrupoCommand dto, Grupo grupo);
     public Task<ICollection<Grupo>> ObterPorUsuarioId(int usuarioId);
-    public Task<bool> Deletar(DeletarGrupoCommand dto, Grupo grupo);
 }

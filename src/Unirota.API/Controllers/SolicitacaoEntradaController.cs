@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unirota.API.Controllers.Common;
-using Unirota.Application.Commands.SolicitarEntrada;
 using Unirota.Application.Services;
 using Unirota.Application.Common.Interfaces;
+using Unirota.Application.Commands.SolicitacaoEntrada;
 
 namespace Unirota.API.Controllers;
 
@@ -20,7 +20,14 @@ public class SolicitacaoEntradaController : BaseApiController
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> SolicitarEntrada([FromBody] SolicitarEntradaGrupoCommand command)
+    public async Task<IActionResult> SolicitarEntrada([FromBody] SolicitacaoEntradaGrupoCommand command)
+    {
+        return GetResponse(await Mediator.Send(command));
+    }
+
+    [HttpPatch("aceitar/{Id}")]
+    [Authorize]
+    public async Task<IActionResult> Aceitar(AceitarEntradaGrupoCommand command)
     {
         return GetResponse(await Mediator.Send(command));
     }

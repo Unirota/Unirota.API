@@ -40,11 +40,11 @@ public class Grupo : BaseEntity, IAggregateRoot
         return this;
     }
 
-    public Grupo AdicionarPassageiro(Usuario usuario)
+    public Grupo AdicionarPassageiro(int usuarioId)
     {
         Passageiros.Add(new UsuariosGrupo
         {
-            UsuarioId = usuario.Id,
+            UsuarioId = usuarioId,
             GrupoId = Id
         });
         return this;

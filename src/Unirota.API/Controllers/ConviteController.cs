@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Unirota.API.Controllers.Common;
 using Unirota.Application.Commands.Convites;
-using Unirota.Application.Commands.Usuarios;
 
 using Unirota.Application.Services;
 

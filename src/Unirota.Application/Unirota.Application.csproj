@@ -22,9 +22,5 @@
     <ProjectReference Include="..\Unirota.Shared\Unirota.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Queries\Convite\" />
-  </ItemGroup>
-  
-
+ 
 </Project>

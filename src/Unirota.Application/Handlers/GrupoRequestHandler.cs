@@ -7,6 +7,7 @@ using Unirota.Application.Services;
 using Unirota.Application.Services.Grupos;
 using Unirota.Application.Specifications.Grupos;
 using Unirota.Application.Specifications.Usuarios;
+using Unirota.Application.ViewModels.Grupos;
 using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.Usuarios;
 
@@ -14,7 +15,8 @@ namespace Unirota.Application.Handlers;
 
 public class GrupoRequestHandler : BaseRequestHandler,
                                    IRequestHandler<CriarGrupoCommand, int>,
-                                   IRequestHandler<DeletarGrupoCommand, bool>
+                                   IRequestHandler<DeletarGrupoCommand, bool>,
+                                   IRequestHandler<ObterGrupoUsuarioCommand, ICollection<ListarGruposViewModel>>
 {
     private readonly ICurrentUser _currentUser;
     private readonly IReadRepository<Usuario> _readUserRepository;
@@ -81,5 +83,31 @@ public class GrupoRequestHandler : BaseRequestHandler,
         await _service.Deletar(request, grupo);
 
         return true;
+    }
+
+    public async Task<ICollection<ListarGruposViewModel>> Handle(ObterGrupoUsuarioCommand request, CancellationToken cancellationToken)
+    {
+        var usuario = await _readUserRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(_currentUser.GetUserId()), cancellationToken);
+
+        if (usuario is null)
+        {
+            ServiceContext.AddError("Usuário não encontrado");
+            return [];
+        }
+
+        if(usuario.GruposComoMotorista is null)
+        {
+            ServiceContext.AddError("Este usuário não tem grupos");
+            return [];
+        }
+
+        if(_currentUser.GetUserId() != request.Id)
+        {
+            ServiceContext.AddError("Usuário não pode consultar grupos de outro usuário");
+            return [];
+        }
+
+        
+        return await _service.ObterPorUsuarioId(request.Id);;
     }
 }

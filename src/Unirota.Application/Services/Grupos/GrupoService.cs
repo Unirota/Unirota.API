@@ -1,10 +1,10 @@
 ﻿using Mapster;
 using Unirota.Application.Commands.Grupos;
 using Unirota.Application.Persistence;
-using Unirota.Application.Specifications.Grupo;
 using Unirota.Application.Specifications.Grupos;
 using Unirota.Application.ViewModels.Grupos;
 using Unirota.Domain.Entities.Grupos;
+using Unirota.Domain.Entities.SolicitacoesDeEntrada;
 
 namespace Unirota.Application.Services.Grupos;
 
@@ -12,7 +12,7 @@ internal class GrupoService : IGrupoService
 {
     private readonly IRepository<Grupo> _repository;
 
-    public GrupoService(IRepository<Grupo> repository)
+    public GrupoService(IRepository<Grupo> repository, IRepository<SolicitacaoDeEntrada> solicitacaoRepository)
     {
         _repository = repository;
     }

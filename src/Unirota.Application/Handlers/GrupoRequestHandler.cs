@@ -6,11 +6,10 @@ using Unirota.Application.Persistence;
 using Unirota.Application.Services;
 using Unirota.Application.Services.Grupos;
 using Unirota.Application.Specifications.Grupos;
-using Unirota.Application.Specifications.Grupo;
 using Unirota.Application.Specifications.Usuarios;
+using Unirota.Application.ViewModels.Grupos;
 using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.Usuarios;
-using Unirota.Application.ViewModels.Grupos;
 
 namespace Unirota.Application.Handlers;
 
@@ -57,32 +56,6 @@ public class GrupoRequestHandler : BaseRequestHandler,
         return grupo;
     }
 
-    public async Task<ICollection<ListarGruposViewModel>> Handle(ObterGrupoUsuarioCommand request, CancellationToken cancellationToken)
-    {
-        var usuario = await _readUserRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(_currentUser.GetUserId()), cancellationToken);
-
-        if (usuario is null)
-        {
-            ServiceContext.AddError("Usuário não encontrado");
-            return [];
-        }
-
-        if(usuario.GruposComoMotorista is null)
-        {
-            ServiceContext.AddError("Este usuário não tem grupos");
-            return [];
-        }
-
-        if(_currentUser.GetUserId() != request.Id)
-        {
-            ServiceContext.AddError("Usuário não pode consultar grupos de outro usuário");
-            return [];
-        }
-
-        
-        return await _service.ObterPorUsuarioId(request.Id);;
-    }
-
     public async Task<bool> Handle(DeletarGrupoCommand request, CancellationToken cancellationToken)
     {
         var motorista = await _readUserRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(_currentUser.GetUserId()), cancellationToken);
@@ -110,5 +83,31 @@ public class GrupoRequestHandler : BaseRequestHandler,
         await _service.Deletar(request, grupo);
 
         return true;
+    }
+
+    public async Task<ICollection<ListarGruposViewModel>> Handle(ObterGrupoUsuarioCommand request, CancellationToken cancellationToken)
+    {
+        var usuario = await _readUserRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(_currentUser.GetUserId()), cancellationToken);
+
+        if (usuario is null)
+        {
+            ServiceContext.AddError("Usuário não encontrado");
+            return [];
+        }
+
+        if(usuario.GruposComoMotorista is null)
+        {
+            ServiceContext.AddError("Este usuário não tem grupos");
+            return [];
+        }
+
+        if(_currentUser.GetUserId() != request.Id)
+        {
+            ServiceContext.AddError("Usuário não pode consultar grupos de outro usuário");
+            return [];
+        }
+
+        
+        return await _service.ObterPorUsuarioId(request.Id);;
     }
 }

@@ -15,6 +15,5 @@ public static class UsuarioMapSettings
             .Map(dest => dest.Email, src => src.Email)
             .Map(dest => dest.Motorista, src => !string.IsNullOrEmpty(src.Habilitacao))
             .Map(dest => dest.DataNascimento, src => src.DataNascimento);
-
     }
 }

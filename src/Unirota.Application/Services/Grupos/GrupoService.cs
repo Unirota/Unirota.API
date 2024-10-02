@@ -1,11 +1,10 @@
-﻿using Unirota.Application.Commands.Grupos;
+﻿using Mapster;
+using Unirota.Application.Commands.Grupos;
 using Unirota.Application.Persistence;
-using Unirota.Domain.Entities.Grupos;
-using Unirota.Application.Services.Grupos;
-using Unirota.Application.Services.Grupos;
-using Unirota.Application.Commands.Grupos.ObterGrupoUsuario;
 using Unirota.Application.Specifications.Grupo;
 using Unirota.Application.Specifications.Grupos;
+using Unirota.Application.ViewModels.Grupos;
+using Unirota.Domain.Entities.Grupos;
 
 namespace Unirota.Application.Services.Grupos;
 
@@ -61,9 +60,12 @@ internal class GrupoService : IGrupoService
         return true;
     }
 
-    public async Task<ICollection<Grupo>> ObterPorUsuarioId(int usuarioId)
+    public async Task<ICollection<ListarGruposViewModel>> ObterPorUsuarioId(int usuarioId)
     {
-        var grupos = await _repository.ListAsync(new ConsultarGrupoPorUsuarioIdSpec(usuarioId));
-        return grupos;
+        var gruposComoPassageiro = await _repository.ListAsync(new ConsultarGrupoComoPassageiroSpec(usuarioId));
+        var gruposComoMotorista = await _repository.ListAsync(new ConsultarGrupoComoMotoristaSpec(usuarioId));
+        var grupos = gruposComoPassageiro.Concat(gruposComoMotorista).ToList();
+        var gruposViewModel = grupos.Adapt<List<ListarGruposViewModel>>();
+        return gruposViewModel;
     }
 }

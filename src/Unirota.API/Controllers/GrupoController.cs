@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unirota.API.Controllers.Common;
 using Unirota.Application.Commands.Grupos;
-using Unirota.Application.Commands.Grupos.ObterGrupoUsuario;
 using Unirota.Application.Services;
 
 namespace Unirota.API.Controllers;
@@ -23,7 +22,7 @@ public class GrupoController : BaseApiController
         return GetResponse(await Mediator.Send(request));
     }
 
-    [HttpGet("Usuario/{Id}")]
+    [HttpGet("usuario/{Id}")]
     [Authorize]
     public async Task<IActionResult> Obter(ObterGrupoUsuarioCommand request)
     {
@@ -33,7 +32,7 @@ public class GrupoController : BaseApiController
 
     [HttpDelete]
     [Authorize]
-    public async Task<IActionResult> Deletar( DeletarGrupoCommand request)
+    public async Task<IActionResult> Deletar(DeletarGrupoCommand request)
     {
         return GetResponse(await Mediator.Send(request));
     }

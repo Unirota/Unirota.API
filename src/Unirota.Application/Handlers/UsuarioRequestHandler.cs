@@ -40,7 +40,6 @@ public class UsuarioRequestHandler : BaseRequestHandler,
     public async Task<int> Handle(CriarUsuarioCommand request, CancellationToken cancellationToken)
     {
         var senhaCriptografada = _service.CriptografarSenha(request.Senha);
-        CriarUsuarioCommand criarUsuarioCommand = new CriarUsuarioCommand();
 
         string cpfValidationResult = _service.ValidarCpf(request.CPF);
         if (cpfValidationResult != "Ok")

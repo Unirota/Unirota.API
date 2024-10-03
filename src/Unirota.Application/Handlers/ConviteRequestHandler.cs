@@ -6,8 +6,8 @@ using Unirota.Application.Persistence;
 
 using Unirota.Application.Services;
 using Unirota.Application.Services.Convites;
-using Unirota.Application.Specifications.Convites;
-using Unirota.Application.Specifications.Usuarios;
+using Unirota.Application.Specification.Convites;
+using Unirota.Application.Specification.Usuarios;
 using Unirota.Domain.Entities.Covites;
 using Unirota.Domain.Entities.Usuarios;
 

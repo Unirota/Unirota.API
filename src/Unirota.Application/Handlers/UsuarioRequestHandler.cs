@@ -7,7 +7,7 @@ using Unirota.Application.Persistence;
 using Unirota.Application.Queries.Usuario;
 using Unirota.Application.Services;
 using Unirota.Application.Services.Usuarios;
-using Unirota.Application.Specifications.Usuarios;
+using Unirota.Application.Specification.Usuarios;
 using Unirota.Application.ViewModels.Auth;
 using Unirota.Application.ViewModels.Usuarios;
 using Unirota.Domain.Entities.Usuarios;

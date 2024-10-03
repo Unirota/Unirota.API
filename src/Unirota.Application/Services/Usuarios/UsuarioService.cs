@@ -3,7 +3,7 @@ using Unirota.Application.Commands.Usuarios;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Persistence;
 using Unirota.Application.Queries.Usuario;
-using Unirota.Application.Specifications.Usuarios;
+using Unirota.Application.Specification.Usuarios;
 using Unirota.Application.ViewModels.Usuarios;
 using Unirota.Domain.Entities.Usuarios;
 using Unirota.Shared;

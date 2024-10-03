@@ -31,4 +31,11 @@ public class SolicitacaoEntradaController : BaseApiController
     {
         return GetResponse(await Mediator.Send(command));
     }
+
+    [HttpPatch("recusar/{Id}")]
+    [Authorize]
+    public async Task<IActionResult> Recusar(RecusarEntradaGrupoCommand command)
+    {
+        return GetResponse(await Mediator.Send(command));
+    }
 }

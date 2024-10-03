@@ -1,6 +1,5 @@
 using MediatR;
-using Unirota.Application.Commands.Grupos;
-using Unirota.Application.Commands.SolicitarEntrada;
+using Unirota.Application.Commands.SolicitacaoEntrada;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Handlers.Common;
 using Unirota.Application.Persistence;
@@ -9,13 +8,14 @@ using Unirota.Application.Services.Grupos;
 using Unirota.Application.Services.SolicitacaoEntrada;
 using Unirota.Application.Specifications.Grupos;
 using Unirota.Application.Specifications.Usuarios;
-using Unirota.Domain.Entities.Usuarios;
 using Unirota.Domain.Entities.Grupos;
+using Unirota.Domain.Entities.Usuarios;
 
 namespace Unirota.Application.Handlers;
 
-public class SolicitarEntradaRequestHandler : BaseRequestHandler,
-                                              IRequestHandler<SolicitarEntradaGrupoCommand, bool>
+public class SolicitacaoEntradaRequestHandler : BaseRequestHandler,
+                                                IRequestHandler<SolicitacaoEntradaGrupoCommand, bool>,
+                                                IRequestHandler<AceitarEntradaGrupoCommand, bool>
 {
     private readonly ICurrentUser _currentUser;
     private readonly IReadRepository<Usuario> _readUserRepository;
@@ -24,7 +24,7 @@ public class SolicitarEntradaRequestHandler : BaseRequestHandler,
     private readonly ISolicitacaoEntradaService _solicitacaoEntradaService;
 
 
-    public SolicitarEntradaRequestHandler(IServiceContext serviceContext,
+    public SolicitacaoEntradaRequestHandler(IServiceContext serviceContext,
                                           ICurrentUser currentUser,
                                           IGrupoService grupoService,
                                           ISolicitacaoEntradaService solicitacaoEntradaService,
@@ -39,7 +39,7 @@ public class SolicitarEntradaRequestHandler : BaseRequestHandler,
         _solicitacaoEntradaService = solicitacaoEntradaService;
     }
 
-    public async Task<bool> Handle(SolicitarEntradaGrupoCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(SolicitacaoEntradaGrupoCommand request, CancellationToken cancellationToken)
     {
         if (request.GrupoId == 0)
         {
@@ -76,5 +76,10 @@ public class SolicitarEntradaRequestHandler : BaseRequestHandler,
         
 
         return await _solicitacaoEntradaService.CriarSolicitacaoEntrada(usuario.Id, grupo.Id);
+    }
+
+    public async Task<bool> Handle(AceitarEntradaGrupoCommand request, CancellationToken cancellationToken)
+    {
+        return await _solicitacaoEntradaService.AceitarSolicitacaoEntrada(request.Id, cancellationToken);
     }
 }

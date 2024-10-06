@@ -15,14 +15,12 @@ public class UsuariosGruposConfiguration : IEntityTypeConfiguration<UsuariosGrup
         builder
            .HasOne(ug => ug.Usuario)
            .WithMany(u => u.GruposComoPassageiro)
-           .HasForeignKey(ug => ug.UsuarioId)
-           .OnDelete(DeleteBehavior.Cascade);
+           .HasForeignKey(ug => ug.UsuarioId);
 
         builder
             .HasOne(ug => ug.Grupo)
             .WithMany(g => g.Passageiros)
-            .HasForeignKey(ug => ug.GrupoId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey(ug => ug.GrupoId);
 
     }
 }

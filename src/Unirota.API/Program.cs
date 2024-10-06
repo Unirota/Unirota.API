@@ -12,6 +12,7 @@ using Unirota.Infrastructure;
 using Unirota.Infrastructure.Auth;
 using Unirota.Migrations;
 
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.AddConfigurations();
 builder.Configuration.AddEnvironmentVariables();

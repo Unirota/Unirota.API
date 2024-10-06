@@ -1,4 +1,4 @@
-using Unirota.Application.Commands.Usuarios;
+using Unirota.Application.Commands.Convites;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Domain.Entities.Covites;
 

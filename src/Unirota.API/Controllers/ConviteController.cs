@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Unirota.API.Controllers.Common;
 using Unirota.Application.Commands.Convites;
-using Unirota.Application.Commands.Usuarios;
 
 using Unirota.Application.Services;
 
@@ -31,6 +30,12 @@ public class ConviteController : BaseApiController
 
     [HttpPatch("{id}")]
     public async Task<IActionResult> Aceitar(AceitarConviteCommand request)
+    {
+        return GetResponse(await Mediator.Send(request));
+    }
+
+    [HttpDelete("recusar/{Id}")]
+    public async Task<IActionResult> Recusar(RecusarConviteCommand request)
     {
         return GetResponse(await Mediator.Send(request));
     }

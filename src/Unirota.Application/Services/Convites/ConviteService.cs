@@ -1,8 +1,7 @@
-﻿using Unirota.Application.Commands.Usuarios;
+﻿using Unirota.Application.Commands.Convites;
 using Unirota.Application.Persistence;
 using Unirota.Application.Specifications.Convites;
 using Unirota.Domain.Entities.Covites;
-using Unirota.Domain.Entities.Usuarios;
 
 namespace Unirota.Application.Services.Convites;
 
@@ -53,6 +52,6 @@ public class ConviteService : IConviteService
     {
         await _repository.DeleteAsync(convite);
     }
-
+//
 }
 

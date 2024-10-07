@@ -1,12 +1,12 @@
 ﻿using MediatR;
-using Unirota.Domain.Common.Contracts;
-
+using Unirota.Application.ViewModels.Grupo;
 
 namespace Unirota.Application.Commands.Grupos;
 
-public class CriarGrupoCommand : IRequest<int>
+public class EditarGrupoCommand : IRequest<GrupoViewModel>
+
 {
-    public string Nome { get; set; } = string.Empty;
+    public int Id { get; set; }
     public int PassageiroLimite { get; set; }
     public string Descricao { get; set; } = string.Empty;
     public string ImagemUrl { get; set; } = string.Empty;

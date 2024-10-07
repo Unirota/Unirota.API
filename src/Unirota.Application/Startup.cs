@@ -4,11 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Unirota.Application.Commands.Grupos;
 using Unirota.Application.Commands.Usuarios;
+using Unirota.Application.Commands.Veiculos;
 using Unirota.Application.Common;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Services.Usuarios;
 using Unirota.Application.Validations.Grupos;
 using Unirota.Application.Validations.Usuarios;
+using Unirota.Application.Validations.Veiculos;
 
 namespace Unirota.Application;
 
@@ -29,6 +31,7 @@ public static class Startup
     {
         services.AddScoped<IValidator<CriarUsuarioCommand>, CriarUsuarioValidation>();
         services.AddScoped<IValidator<CriarGrupoCommand>, CriarGrupoValidation>();
+        services.AddScoped<IValidator<CriarVeiculosCommand>, CriarVeiculoValidation>();
         return services;
     }
 }

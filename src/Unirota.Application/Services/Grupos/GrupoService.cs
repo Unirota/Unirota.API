@@ -45,7 +45,7 @@ internal class GrupoService : IGrupoService
     public async Task<Grupo?> ObterPorId(ConsultarGrupoPorIdQuery request, CancellationToken cancellationToken)
     {
         Grupo? grupo = await _repository.FirstOrDefaultAsync(new ConsultarGrupoPorIdSpec(request.Id), cancellationToken);
-        var teste = await _repository.ListAsync();
+        
         if(grupo == null)
             _serviceContext.AddError("Grupo não encontrado");
         return grupo;

@@ -7,7 +7,7 @@ using Unirota.Application.Persistence;
 using Unirota.Application.Queries.Usuario;
 using Unirota.Application.Services;
 using Unirota.Application.Services.Usuarios;
-using Unirota.Application.Specification.Usuarios;
+using Unirota.Application.Specifications.Usuarios;
 using Unirota.Application.ViewModels.Auth;
 using Unirota.Application.ViewModels.Usuarios;
 using Unirota.Domain.Entities.Usuarios;
@@ -40,13 +40,27 @@ public class UsuarioRequestHandler : BaseRequestHandler,
     public async Task<int> Handle(CriarUsuarioCommand request, CancellationToken cancellationToken)
     {
         var senhaCriptografada = _service.CriptografarSenha(request.Senha);
-        var novoUsuario = new Usuario(request.Nome, request.Email, senhaCriptografada, request.CPF, request.DataNascimento);
 
+        string cpfValidationResult = _service.ValidarCpf(request.CPF);
+        if (cpfValidationResult != "Ok")
+        {
+            ServiceContext.AddError(cpfValidationResult);
+            return default;
+        }
+        var cpfDuplicado = await _readRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorCPFSpec(request.CPF), cancellationToken);
+        if (cpfDuplicado != null)
+        {
+            ServiceContext.AddError("CPF duplicado!");
+            return default;
+        }
+
+        var novoUsuario = new Usuario(request.Nome, request.Email, senhaCriptografada, request.CPF, request.DataNascimento);
         await _repository.AddAsync(novoUsuario, cancellationToken);
         novoUsuario = await _readRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(novoUsuario.Id), cancellationToken);
-        
+
         return novoUsuario.Id;
     }
+
 
     public async Task<TokenViewModel?> Handle(LoginCommand request, CancellationToken cancellationToken)
     {

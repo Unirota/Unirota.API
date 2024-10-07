@@ -23,6 +23,22 @@ public class GrupoController : BaseApiController
         return GetResponse(await Mediator.Send(request));
     }
 
+    [HttpGet("usuario/{Id}")]
+    [Authorize]
+    public async Task<IActionResult> Obter(ObterGrupoUsuarioCommand request)
+    {
+        return GetResponse(await Mediator.Send(request));
+    }
+
+
+    [HttpDelete]
+    [Authorize]
+    public async Task<IActionResult> Deletar(DeletarGrupoCommand request)
+    {
+        return GetResponse(await Mediator.Send(request));
+    }
+
+
     [HttpGet("{Id}")]
     [Authorize]
     public async Task<IActionResult> ObterPorId(ConsultarGrupoPorIdQuery request)

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Unirota.Application.Commands.Usuarios;
+namespace Unirota.Application.Commands.Convites;
 
 public class CriarConviteCommand : IRequest<int>
 {

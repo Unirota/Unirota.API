@@ -8,18 +8,16 @@ public class Migration202409111715 : Migration
 {
     public override void Up()
     {
-        Create.Table("Grupos")
+        Create.Table("Convites")
             .EntityBase()
-            .WithColumn("Nome").AsString().NotNullable()
+            .WithColumn("Aceito").AsBoolean().NotNullable()
+            .WithColumn("UsuarioId").AsInt32().NotNullable().ForeignKey("Usuarios", "Id")
             .WithColumn("MotoristaId").AsInt32().NotNullable().ForeignKey("Usuarios", "Id")
-            .WithColumn("PassageiroLimite").AsInt32().NotNullable()
-            .WithColumn("ImagemUrl").AsString().Nullable()
-            .WithColumn("Descricao").AsString().Nullable()
-            .WithColumn("HoraInicio").AsDateTime2().NotNullable();
+            .WithColumn("GrupoId").AsInt32().NotNullable().ForeignKey("Grupos", "Id");
     }
 
     public override void Down()
     {
-        Delete.Table("Grupos");
+        Delete.Table("Convites");
     }
 }

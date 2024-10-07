@@ -5,7 +5,7 @@ using Unirota.Domain.Entities.SolicitacoesDeEntrada;
 
 namespace Unirota.Application.Services.SolicitacaoEntrada;
 
-public class SolicitacaoEntradaService: ISolicitacaoEntradaService
+public class SolicitacaoEntradaService : ISolicitacaoEntradaService
 
 {
     private readonly IRepository<SolicitacaoDeEntrada> _solicitacaoRepository;
@@ -48,6 +48,28 @@ public class SolicitacaoEntradaService: ISolicitacaoEntradaService
 
         solicitacao.Grupo.AdicionarPassageiro(solicitacao.UsuarioId);
         await _solicitacaoRepository.SaveChangesAsync();
+
+        return true;
+    }
+
+    public async Task<bool> RecusarSolicitacaoEntrada(int solicitacaoId, CancellationToken cancellationToken)
+    {
+        var solicitacao = await _solicitacaoRepository
+                            .FirstOrDefaultAsync(new ConsultarSolicitacaoEntradaPorIdSpec(solicitacaoId), cancellationToken);
+
+        if (solicitacao is null)
+        {
+            _serviceContext.AddError("Solicitação foi excluída ou aceita.");
+            return false;
+        }
+
+        if (solicitacao.Grupo.MotoristaId != _currentUser.GetUserId())
+        {
+            _serviceContext.AddError("Somente o motorista do grupo pode recusar solicitação de entrada");
+            return false;
+        }
+
+        await _solicitacaoRepository.DeleteAsync(solicitacao, cancellationToken);
 
         return true;
     }

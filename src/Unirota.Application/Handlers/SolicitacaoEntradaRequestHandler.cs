@@ -15,7 +15,8 @@ namespace Unirota.Application.Handlers;
 
 public class SolicitacaoEntradaRequestHandler : BaseRequestHandler,
                                                 IRequestHandler<SolicitacaoEntradaGrupoCommand, bool>,
-                                                IRequestHandler<AceitarEntradaGrupoCommand, bool>
+                                                IRequestHandler<AceitarEntradaGrupoCommand, bool>,
+                                                IRequestHandler<RecusarEntradaGrupoCommand, bool>
 {
     private readonly ICurrentUser _currentUser;
     private readonly IReadRepository<Usuario> _readUserRepository;
@@ -81,5 +82,10 @@ public class SolicitacaoEntradaRequestHandler : BaseRequestHandler,
     public async Task<bool> Handle(AceitarEntradaGrupoCommand request, CancellationToken cancellationToken)
     {
         return await _solicitacaoEntradaService.AceitarSolicitacaoEntrada(request.Id, cancellationToken);
+    }
+
+    public async Task<bool> Handle(RecusarEntradaGrupoCommand request, CancellationToken cancellationToken)
+    {
+        return await _solicitacaoEntradaService.RecusarSolicitacaoEntrada(request.Id, cancellationToken);
     }
 }

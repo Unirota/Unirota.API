@@ -1,6 +1,7 @@
 ﻿using Unirota.Domain.Common.Contracts;
 using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.UsuariosGrupos;
+using Unirota.Domain.Entities.SolicitacoesDeEntrada;
 
 namespace Unirota.Domain.Entities.Usuarios;
 
@@ -14,6 +15,8 @@ public class Usuario : BaseEntity, IAggregateRoot
     public DateTime DataNascimento { get; protected set; }
     public string? ImagemUrl { get; protected set; }
     public ICollection<UsuariosGrupo> GruposComoPassageiro { get; private set; } = [];
+
+    public ICollection<SolicitacaoDeEntrada> SolicitacoesDeEntrada { get; private set; } = [];
 
     public ICollection<Grupo> GruposComoMotorista { get; private set; } = [];
 

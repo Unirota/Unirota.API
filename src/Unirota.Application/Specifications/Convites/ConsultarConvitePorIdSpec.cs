@@ -9,4 +9,17 @@ public class ConsultarConvitePorIdSpec : Specification<Convite>
     {
         Query.Where(usuario => usuario.Id == id);
     }
+
+    public ConsultarConvitePorIdSpec(int usuarioId, int motoristaId, int grupoId, bool? aceito = null)
+    {
+        Query.Where(convite =>
+            convite.UsuarioId == usuarioId &&
+            convite.MotoristaId == motoristaId &&
+            convite.GrupoId == grupoId);
+
+        if (aceito.HasValue)
+        {
+            Query.Where(convite => convite.Aceito == aceito.Value);
+        }
+    }
 }

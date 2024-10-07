@@ -18,6 +18,15 @@ public class ConviteService : IConviteService
 
     public async Task<int> Criar(CriarConviteCommand dto)
     {
+        var conviteExistente = await _repository.FirstOrDefaultAsync(
+            new ConsultarConvitePorIdSpec(dto.UsuarioId, dto.MotoristaId, dto.GrupoId, aceito: false));
+
+        if (conviteExistente != null)
+        {
+            _serviceContext.AddError("Já existe um convite pendente para este usuário e motorista.");
+            return 0;
+        }
+        
         Convite convite = new Convite(dto.UsuarioId, dto.MotoristaId, dto.GrupoId);
         await _repository.AddAsync(convite);
         return convite.Id;
@@ -43,6 +52,6 @@ public class ConviteService : IConviteService
     {
         await _repository.DeleteAsync(convite);
     }
-
+//
 }
 

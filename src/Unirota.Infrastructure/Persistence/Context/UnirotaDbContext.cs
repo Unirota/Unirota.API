@@ -13,7 +13,6 @@ public class UnirotaDbContext(DbContextOptions options) : DbContext(options)
     public DbSet<Usuario> Usuarios => Set<Usuario>();
     public DbSet<Convite> Convites => Set<Convite>();
     public DbSet<Grupo> Grupos => Set<Grupo>();
-    public DbSet<UsuariosGrupo> UsuariosGrupos => Set<UsuariosGrupo>();
     public DbSet<SolicitacaoDeEntrada> SolicitacaoDeEntrada => Set<SolicitacaoDeEntrada>();
     public DbSet<UsuariosGrupo> UsuariosGrupo => Set<UsuariosGrupo>();
     public DbSet<Veiculo> Veiculos => Set<Veiculo>();

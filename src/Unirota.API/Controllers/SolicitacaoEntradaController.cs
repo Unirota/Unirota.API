@@ -38,4 +38,11 @@ public class SolicitacaoEntradaController : BaseApiController
     {
         return GetResponse(await Mediator.Send(command));
     }
+    
+    [HttpPatch("cancelar/{Id}")]
+    [Authorize]
+    public async Task<IActionResult> Recusar(CancelarSolicitacaoEntradaGrupoCommand command)
+    {
+        return GetResponse(await Mediator.Send(command));
+    }
 }

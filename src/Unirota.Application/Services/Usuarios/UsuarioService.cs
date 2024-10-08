@@ -118,6 +118,13 @@ public class UsuarioService : IUsuarioService
                 .AlterarImagem(request.ImagemUrl);
         }
 
+        usuarioDb.Endereco?.AlterarLogradouro(request.Endereco.Logradouro)
+                           .AlterarBairro(request.Endereco.Bairro)
+                           .AlterarNumero(request.Endereco.Numero)
+                           .AlterarComplemento(request.Endereco.Complemento)
+                           .AlterarCEP(request.Endereco.CEP)
+                           .AlterarCidade(request.Endereco.Cidade);
+
         await _repository.SaveChangesAsync(cancellationToken);
 
         return usuarioDb.Adapt<UsuarioViewModel>();

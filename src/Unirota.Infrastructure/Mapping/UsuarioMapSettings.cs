@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Unirota.Application.ViewModels.Enderecos;
 using Unirota.Application.ViewModels.Usuarios;
 using Unirota.Domain.Entities.Usuarios;
 
@@ -14,6 +15,7 @@ public static class UsuarioMapSettings
             .Map(dest => dest.Nome, src => src.Nome)
             .Map(dest => dest.Email, src => src.Email)
             .Map(dest => dest.Motorista, src => !string.IsNullOrEmpty(src.Habilitacao))
-            .Map(dest => dest.DataNascimento, src => src.DataNascimento);
+            .Map(dest => dest.DataNascimento, src => src.DataNascimento)
+            .Map(dest => dest.Endereco, src => src.Endereco.Adapt<EnderecoViewModel>());
     }
 }

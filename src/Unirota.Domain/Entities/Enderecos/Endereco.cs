@@ -32,9 +32,45 @@ public class Endereco : BaseEntity, IAggregateRoot
         UsuarioId = usuarioId;
     }
 
-    public Endereco AlterarComplemento(string complemento)
+    public Endereco AlterarComplemento(string? complemento)
     {
         Complemento = complemento;
+        return this;
+    }
+
+    public Endereco AlterarCEP(string cep)
+    {
+        CEP = cep;
+        return this;
+    }
+
+    public Endereco AlterarLogradouro(string logradouro)
+    {
+        Logradouro = logradouro;
+        return this;
+    }
+
+    public Endereco AlterarNumero(int numero)
+    {
+        Numero = numero;
+        return this;
+    }
+
+    public Endereco AlterarCidade(string cidade)
+    {
+        Cidade = cidade;
+        return this;
+    }
+
+    public Endereco AlterarBairro(string bairro)
+    {
+        Bairro = bairro;
+        return this;
+    }
+
+    public Endereco AlterarUF(string uf)
+    {
+        UF = uf;
         return this;
     }
 }

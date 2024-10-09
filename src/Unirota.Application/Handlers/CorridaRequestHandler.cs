@@ -1,33 +1,40 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unirota.Application.Commands.Convites;
-using Unirota.Application.Handlers.Common;
 using Unirota.Application.Commands.Corridas;
-using Unirota.Application.Services;
+using Unirota.Application.Handlers.Common;
 using Unirota.Application.Persistence;
-using Unirota.Domain.Entities.Usuarios;
-using Unirota.Domain.Entities.Grupos;
+using Unirota.Application.Services;
+using Unirota.Application.Services.Corrida;
+using Unirota.Application.Specifications.Grupos;
 using Unirota.Domain.Entities.Corridas;
-using Unirota.Application.Specification.Corridas;
+using Unirota.Domain.Entities.Grupos;
 
 namespace Unirota.Application.Handlers;
 public class CorridaRequestHandler : BaseRequestHandler,
-    IRequestHandler<CriarCorridaCommand, int>
+                                    IRequestHandler<CriarCorridaCommand, int>
 {
     private readonly IReadRepository<Corrida> _readCorridaRepository;
+    private readonly IReadRepository<Grupo> _readGrupoRepository;
+    private readonly ICorridaService _service;
     public CorridaRequestHandler(IServiceContext serviceContext,
-                                IReadRepository<Corrida> readCorridaRepository)
-                                : base(serviceContext)
+                                ICorridaService service,
+                                IReadRepository<Corrida> readCorridaRepository,
+                                IReadRepository<Grupo> readGrupoRepository) : base(serviceContext)
     {
         _readCorridaRepository = readCorridaRepository;
+        _readGrupoRepository = readGrupoRepository;
+        _service = service;
     }
 
     public async Task<int> Handle(CriarCorridaCommand request, CancellationToken cancellationToken)
     {
-        var corrida = await _readCorridaRepository.FirstOrDefaultAsync(new ConsultarCorridaPorIdSpec(request.GrupoId), cancellationToken);
+        var grupo = await _readGrupoRepository.FirstOrDefaultAsync(new ConsultarGrupoPorIdSpec(request.GrupoId), cancellationToken);
+        if(grupo is null)
+        {
+            ServiceContext.AddError("Grupo não encontrado");
+            return default;
+        }
+
+        var corrida = await _service.Criar(request);
+        return corrida;
     }
 }

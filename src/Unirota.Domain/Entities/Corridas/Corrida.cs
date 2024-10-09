@@ -1,5 +1,4 @@
 ﻿using Unirota.Domain.Common.Contracts;
-using Unirota.Domain.Entities.UsuariosGrupos;
 
 namespace Unirota.Domain.Entities.Corridas;
 
@@ -11,11 +10,10 @@ public class Corrida : BaseEntity, IAggregateRoot
 
     public Corrida() { }
 
-    public Corrida(int grupoId, DateTime comeco, DateTime final)
+    public Corrida(int grupoId)
     {
         GrupoId = grupoId;
-        Comeco = comeco;
-        Final = final;
+        Comeco = DateTime.UtcNow;
     }
 }
 

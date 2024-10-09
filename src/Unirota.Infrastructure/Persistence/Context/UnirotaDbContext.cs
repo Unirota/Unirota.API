@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Unirota.Domain.Entities.Covites;
+using Unirota.Domain.Entities.Enderecos;
 using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.SolicitacoesDeEntrada;
 using Unirota.Domain.Entities.Usuarios;
@@ -16,4 +17,5 @@ public class UnirotaDbContext(DbContextOptions options) : DbContext(options)
     public DbSet<SolicitacaoDeEntrada> SolicitacaoDeEntrada => Set<SolicitacaoDeEntrada>();
     public DbSet<UsuariosGrupo> UsuariosGrupo => Set<UsuariosGrupo>();
     public DbSet<Veiculo> Veiculos => Set<Veiculo>();
+    public DbSet<Endereco> Enderecos => Set<Endereco>();
 }

@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using MediatR;
+using System.Runtime.ConstrainedExecution;
 using Unirota.Application.Commands.Usuarios;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Handlers.Common;
@@ -10,7 +11,9 @@ using Unirota.Application.Services.Usuarios;
 using Unirota.Application.Specifications.Usuarios;
 using Unirota.Application.ViewModels.Auth;
 using Unirota.Application.ViewModels.Usuarios;
+using Unirota.Domain.Entities.Enderecos;
 using Unirota.Domain.Entities.Usuarios;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Unirota.Application.Handlers;
 
@@ -55,6 +58,17 @@ public class UsuarioRequestHandler : BaseRequestHandler,
         }
 
         var novoUsuario = new Usuario(request.Nome, request.Email, senhaCriptografada, request.CPF, request.DataNascimento);
+        var enderecoUsuario = new Endereco(request.Endereco.CEP,
+                                           request.Endereco.Logradouro,
+                                           request.Endereco.Numero,
+                                           request.Endereco.Cidade,
+                                           request.Endereco.Bairro,
+                                           request.Endereco.UF,
+                                           novoUsuario.Id);
+        enderecoUsuario.AlterarComplemento(request.Endereco.Complemento);
+        
+        novoUsuario.AlterarEndereco(enderecoUsuario);
+
         await _repository.AddAsync(novoUsuario, cancellationToken);
         novoUsuario = await _readRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(novoUsuario.Id), cancellationToken);
 

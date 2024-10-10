@@ -1,15 +1,10 @@
 ﻿using FluentMigrator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Unirota.Migrations.Configuration;
 
 namespace Unirota.Migrations;
 
-[Migration(202410082116)]
-public class Migration202410082116 :  Migration
+[Migration(202410102021)]
+public class Migration202410102021 :  Migration
 {
     public override void Up()
     {
@@ -17,7 +12,7 @@ public class Migration202410082116 :  Migration
             .EntityBase()
             .WithColumn("GrupoId").AsInt32().NotNullable().ForeignKey("Grupos", "Id")
             .WithColumn("Comeco").AsDateTime2().NotNullable()
-            .WithColumn("Final").AsDateTime2().NotNullable();
+            .WithColumn("Final").AsDateTime2().Nullable();
 
     }
 

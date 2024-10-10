@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Unirota.Application.Commands.Corridas;
+using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Handlers.Common;
 using Unirota.Application.Persistence;
 using Unirota.Application.Services;
@@ -15,22 +16,31 @@ public class CorridaRequestHandler : BaseRequestHandler,
     private readonly IReadRepository<Corrida> _readCorridaRepository;
     private readonly IReadRepository<Grupo> _readGrupoRepository;
     private readonly ICorridaService _service;
+    private readonly ICurrentUser _currentUser;
     public CorridaRequestHandler(IServiceContext serviceContext,
+                                ICurrentUser currentUser,
                                 ICorridaService service,
                                 IReadRepository<Corrida> readCorridaRepository,
                                 IReadRepository<Grupo> readGrupoRepository) : base(serviceContext)
+                               
     {
         _readCorridaRepository = readCorridaRepository;
         _readGrupoRepository = readGrupoRepository;
         _service = service;
+        _currentUser = currentUser;
     }
 
     public async Task<int> Handle(CriarCorridaCommand request, CancellationToken cancellationToken)
     {
         var grupo = await _readGrupoRepository.FirstOrDefaultAsync(new ConsultarGrupoPorIdSpec(request.GrupoId), cancellationToken);
+
         if(grupo is null)
         {
             ServiceContext.AddError("Grupo não encontrado");
+            return default;
+        }
+        if (grupo.MotoristaId != _currentUser.GetUserId()){
+            ServiceContext.AddError("Você não está cadastrado como motorista");
             return default;
         }
 

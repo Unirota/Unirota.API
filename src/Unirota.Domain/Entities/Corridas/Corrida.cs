@@ -6,7 +6,7 @@ public class Corrida : BaseEntity, IAggregateRoot
 {
     public int GrupoId { get; set; }
     public DateTime Comeco { get; set; }
-    public DateTime Final { get; set; }
+    public DateTime? Final { get; set; }
 
     public Corrida() { }
 

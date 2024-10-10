@@ -21,7 +21,7 @@ internal class GrupoService : IGrupoService
 
     public async Task<int> Criar(CriarGrupoCommand dto, int motoristaId)
     {
-        var grupo = new Grupo(dto.Nome, dto.PassageiroLimite, dto.HoraInicio, motoristaId);
+        var grupo = new Grupo(dto.Nome, dto.PassageiroLimite, dto.HoraInicio, motoristaId, dto.Destino);
 
         if (!string.IsNullOrEmpty(dto.Descricao))
         {

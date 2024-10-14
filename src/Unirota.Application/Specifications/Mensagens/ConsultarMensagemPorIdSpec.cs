@@ -1,9 +1,10 @@
 using Ardalis.Specification;
 using Unirota.Domain.Entities.Grupos;
+using Unirota.Domain.Entities.Mensagens;
 
 namespace Unirota.Application.Specifications.Mensagens;
 
-public class ConsultarMensagemPorIdSpec : Specification<Mensagem>, ISingleResultSpecification
+public class ConsultarMensagemPorIdSpec : Specification<Mensagem>
 {
     public ConsultarMensagemPorIdSpec(int id)
     {

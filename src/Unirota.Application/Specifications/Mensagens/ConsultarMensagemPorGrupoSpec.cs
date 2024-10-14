@@ -1,5 +1,6 @@
 using Ardalis.Specification;
 using Unirota.Domain.Entities.Grupos;
+using Unirota.Domain.Entities.Mensagens;
 
 namespace Unirota.Application.Specifications.Mensagens;
 

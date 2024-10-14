@@ -5,6 +5,7 @@ using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Queries.Mensagens;
 using Unirota.Application.ViewModels.Mensagens;
 using Unirota.Domain.Entities.Grupos;
+using Unirota.Domain.Entities.Mensagens;
 
 namespace Unirota.Application.Services.Mensagens;
 

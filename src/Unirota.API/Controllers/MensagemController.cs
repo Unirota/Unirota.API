@@ -21,13 +21,7 @@ public class MensagemController : BaseApiController
     {
         return GetResponse(await Mediator.Send(request));
     }
-
-    [HttpGet("{id}")]
-    public async Task<IActionResult> ObterPorId([FromRoute] ConsultarMensagemPorIdQuery request)
-    {
-        return GetResponse(await Mediator.Send(request));
-    }
-
+    
     [HttpGet("grupo/{grupoId}")]
     public async Task<IActionResult> ListarPorGrupo([FromRoute] ListarMensagensPorGrupoQuery request)
     {

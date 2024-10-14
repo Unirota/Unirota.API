@@ -7,6 +7,7 @@ using Unirota.Application.Specifications.Mensagens;
 using Unirota.Application.Specifications.Usuarios;
 using Unirota.Application.ViewModels.Mensagens;
 using Unirota.Domain.Entities.Grupos;
+using Unirota.Domain.Entities.Mensagens;
 using Unirota.Domain.Entities.Usuarios;
 
 namespace Unirota.Application.Services.Mensagens;
@@ -83,7 +84,10 @@ internal class MensagemService : IMensagemService
     public async Task<bool> VerificarUsuarioPertenceAoGrupo(int usuarioId, int grupoId)
     {
         var grupo = await _grupoRepository.FirstOrDefaultAsync(new ConsultarGrupoPorIdSpec(grupoId));
-        return grupo?.Passageiros.Any(p => p.UsuarioId == usuarioId) ?? false;
+        if (grupo is null) return false;
+        
+        var usuarioPassageiro = grupo.Passageiros.Any(p => p.UsuarioId == usuarioId) || grupo?.Motorista.Id == usuarioId;
+        return usuarioPassageiro;
     }
     
     public async Task<bool> VerificarGrupoExiste(int grupoId)

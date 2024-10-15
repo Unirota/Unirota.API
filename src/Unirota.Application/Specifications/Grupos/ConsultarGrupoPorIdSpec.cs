@@ -7,6 +7,8 @@ public class ConsultarGrupoPorIdSpec : Specification<Domain.Entities.Grupos.Grup
     public ConsultarGrupoPorIdSpec(int id)
     {
         Query
+            .Include(grupo => grupo.Passageiros)
+            .Include(grupo => grupo.Motorista)
             .Where(grupo => grupo.Id == id);
     }
 }

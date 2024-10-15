@@ -129,6 +129,8 @@ public class UsuarioService : IUsuarioService
 
         return usuarioDb.Adapt<UsuarioViewModel>();
     }
+    
+    
 
     public async Task<UsuarioViewModel?> ConsultarPorId(int usuarioId, CancellationToken cancellationToken)
     {
@@ -141,5 +143,11 @@ public class UsuarioService : IUsuarioService
         }
 
         return usuario.Adapt<UsuarioViewModel>();
+    }
+
+    public async Task<bool> VerificarUsuarioExiste(int usuarioId)
+    {
+        var usuario = await _repository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(usuarioId));
+        return usuario != null;
     }
 }

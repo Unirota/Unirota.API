@@ -21,7 +21,7 @@ internal class GrupoService : IGrupoService
 
     public async Task<int> Criar(CriarGrupoCommand dto, int motoristaId)
     {
-        var grupo = new Grupo(dto.Nome, dto.PassageiroLimite, dto.HoraInicio, motoristaId);
+        var grupo = new Grupo(dto.Nome, dto.PassageiroLimite, dto.HoraInicio, motoristaId, dto.Destino);
 
         if (!string.IsNullOrEmpty(dto.Descricao))
         {
@@ -54,7 +54,10 @@ internal class GrupoService : IGrupoService
     public async Task<bool> VerificarUsuarioPertenceAoGrupo(int usuarioId, int grupoId)
     {
         var grupo = await _repository.FirstOrDefaultAsync(new ConsultarGrupoPorIdSpec(grupoId));
-        return grupo?.Passageiros.Any(p => p.UsuarioId == usuarioId) ?? false;
+        if (grupo is null) return false;
+        
+        var usuarioPassageiro = grupo.Passageiros.Any(p => p.UsuarioId == usuarioId) || grupo?.Motorista.Id == usuarioId;
+        return usuarioPassageiro;
     }
     
     public async Task<bool> VerificarGrupoAtingiuLimiteUsuarios(int grupoId)
@@ -63,13 +66,6 @@ internal class GrupoService : IGrupoService
         return grupo != null && grupo.Passageiros.Count >= grupo.PassageiroLimite;
     }
     
-    public async Task<bool> VerificarGrupoExiste(int grupoId)
-    {
-        var grupo = await _repository.FirstOrDefaultAsync(new ConsultarGrupoPorIdSpec(grupoId));
-        return grupo != null;
-    }
-    
-
     public async Task<bool> Deletar(DeletarGrupoCommand dto, Grupo grupo)
     {
         await _repository.DeleteAsync(grupo);

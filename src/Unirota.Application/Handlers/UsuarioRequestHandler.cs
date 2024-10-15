@@ -42,20 +42,21 @@ public class UsuarioRequestHandler : BaseRequestHandler,
 
     public async Task<int> Handle(CriarUsuarioCommand request, CancellationToken cancellationToken)
     {
-        var senhaCriptografada = _service.CriptografarSenha(request.Senha);
-
         string cpfValidationResult = _service.ValidarCpf(request.CPF);
         if (cpfValidationResult != "Ok")
         {
             ServiceContext.AddError(cpfValidationResult);
             return default;
         }
+        
         var cpfDuplicado = await _readRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorCPFSpec(request.CPF), cancellationToken);
         if (cpfDuplicado != null)
         {
             ServiceContext.AddError("CPF duplicado!");
             return default;
         }
+
+        var senhaCriptografada = _service.CriptografarSenha(request.Senha);
 
         var novoUsuario = new Usuario(request.Nome, request.Email, senhaCriptografada, request.CPF, request.DataNascimento);
         var enderecoUsuario = new Endereco(request.Endereco.CEP,

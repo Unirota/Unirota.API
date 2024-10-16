@@ -22,8 +22,8 @@ public class MensagemController : BaseApiController
         return GetResponse(await Mediator.Send(request));
     }
     
-    [HttpGet("grupo/{grupoId}")]
-    public async Task<IActionResult> ListarPorGrupo([FromRoute] ListarMensagensPorGrupoQuery request)
+    [HttpGet("grupo/{GrupoId}")]
+    public async Task<IActionResult> ListarPorGrupo(ListarMensagensPorGrupoQuery request)
     {
         return GetResponse(await Mediator.Send(request));
     }

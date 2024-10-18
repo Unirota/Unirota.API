@@ -20,4 +20,9 @@ public class CorridaService : ICorridaService
         await _repository.AddAsync(corrida);
         return corrida.Id;
     }
+    
+    public async Task<Domain.Entities.Corridas.Corrida> ObterPorId(int id)
+    {
+        return await _repository.GetByIdAsync(id);
+    }
 }

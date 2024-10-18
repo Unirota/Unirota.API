@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Unirota.Domain.Entities.Avaliacoes;
 using Unirota.Domain.Entities.Corridas;
 using Unirota.Domain.Entities.Covites;
 using Unirota.Domain.Entities.Enderecos;
@@ -22,4 +23,5 @@ public class UnirotaDbContext(DbContextOptions options) : DbContext(options)
     public DbSet<Veiculo> Veiculos => Set<Veiculo>();
     public DbSet<Endereco> Enderecos => Set<Endereco>();
     public DbSet<Mensagem> Mensagens => Set<Mensagem>();
+    public DbSet<Avaliacao> Avaliacoes => Set<Avaliacao>();
 }

@@ -20,7 +20,8 @@ public class AvaliacaoController: BaseApiController
     [HttpPost]
     public async Task<IActionResult> Criar([FromBody] CriarAvaliacaoCommand request)
     {
-        return GetResponse(await Mediator.Send(Request));
+        return GetResponse(await Mediator.Send(request));
+        
     }
 
     [HttpGet]

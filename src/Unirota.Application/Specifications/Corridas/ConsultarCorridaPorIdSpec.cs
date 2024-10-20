@@ -9,5 +9,4 @@ public class ConsultarCorridaPorIdSpec : Specification<Corrida>
     {
         Query.Where(corrida => corrida.Id == id);
     }
-
 }

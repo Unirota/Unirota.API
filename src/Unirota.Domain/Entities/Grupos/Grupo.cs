@@ -1,4 +1,5 @@
 ﻿using Unirota.Domain.Common.Contracts;
+using Unirota.Domain.Entities.Mensagens;
 using Unirota.Domain.Entities.SolicitacoesDeEntrada;
 using Unirota.Domain.Entities.Usuarios;
 using Unirota.Domain.Entities.UsuariosGrupos;
@@ -14,18 +15,22 @@ public class Grupo : BaseEntity, IAggregateRoot
     public string? ImagemUrl { get; protected set; }
     public DateTime HoraInicio { get; protected set; }
     public string? Descricao { get; protected set; }
+    public string Destino { get; protected set; } 
 
     public ICollection<UsuariosGrupo> Passageiros { get; private set; } = new List<UsuariosGrupo>();
 
     public ICollection<SolicitacaoDeEntrada> SolicitacoesDeEntrada { get; private set; } = [];
+
+    public ICollection<Mensagem> Mensagens { get; private set; } = [];
     public Grupo() { }
 
-    public Grupo(string nome, int limite, DateTime inicio, int motoristaId)
+    public Grupo(string nome, int limite, DateTime inicio, int motoristaId, string destino)
     {
         Nome = nome;
         PassageiroLimite = limite;
         HoraInicio = inicio;
         MotoristaId = motoristaId;
+        Destino = destino;
     }
 
     public Grupo AlterarDescricao(string descricao)

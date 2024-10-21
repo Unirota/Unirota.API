@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Unirota.Domain.Entities.Usuarios;
-using Unirota.Domain.Entities.UsuariosGrupos;
 
 namespace Unirota.Infrastructure.Persistence.Configurations;
 

@@ -18,6 +18,10 @@ public class CriarGrupoValidation : AbstractValidator<CriarGrupoCommand>
         RuleFor(x => x.HoraInicio)
             .Must(BeAValidDate)
             .WithMessage("Hora de início inválida");
+        
+        RuleFor(x => x.Destino)
+            .NotEmpty()
+            .WithMessage("Insira um destino válido");
     }
 
     private static bool BeAValidDate(DateTime date)

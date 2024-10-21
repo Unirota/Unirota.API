@@ -3,6 +3,7 @@ using Unirota.Application.Commands.Grupos;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Handlers.Common;
 using Unirota.Application.Persistence;
+using Unirota.Application.Queries.Grupo;
 using Unirota.Application.Services;
 using Unirota.Application.Services.Grupos;
 using Unirota.Application.Specifications.Grupos;
@@ -10,13 +11,13 @@ using Unirota.Application.Specifications.Usuarios;
 using Unirota.Application.ViewModels.Grupos;
 using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.Usuarios;
-
 namespace Unirota.Application.Handlers;
 
 public class GrupoRequestHandler : BaseRequestHandler,
                                    IRequestHandler<CriarGrupoCommand, int>,
                                    IRequestHandler<DeletarGrupoCommand, bool>,
-                                   IRequestHandler<ObterGrupoUsuarioCommand, ICollection<ListarGruposViewModel>>
+                                   IRequestHandler<ObterGrupoUsuarioCommand, ICollection<ListarGruposViewModel>>,
+                                   IRequestHandler<ConsultarGrupoPorIdQuery, Grupo>
 {
     private readonly ICurrentUser _currentUser;
     private readonly IReadRepository<Usuario> _readUserRepository;
@@ -54,6 +55,17 @@ public class GrupoRequestHandler : BaseRequestHandler,
 
         var grupo = await _service.Criar(request, motorista.Id);
         return grupo;
+
+
+    }
+    public async Task<int> Handle(EditarGrupoCommand request, CancellationToken cancellationToken)
+    {
+        return await _service.Editar(request, cancellationToken);
+    }
+
+    public async Task<Grupo> Handle(ConsultarGrupoPorIdQuery request, CancellationToken cancellationToken)
+    {
+        return await _service.ObterPorId(request, cancellationToken);
     }
 
     public async Task<bool> Handle(DeletarGrupoCommand request, CancellationToken cancellationToken)

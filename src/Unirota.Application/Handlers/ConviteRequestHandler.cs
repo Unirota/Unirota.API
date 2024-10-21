@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using System.Net.Http.Headers;
 using Unirota.Application.Commands.Convites;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Handlers.Common;

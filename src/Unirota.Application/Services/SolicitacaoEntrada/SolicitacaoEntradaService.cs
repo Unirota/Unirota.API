@@ -73,4 +73,26 @@ public class SolicitacaoEntradaService : ISolicitacaoEntradaService
 
         return true;
     }
+
+    public async Task<bool> CancelarSolicitacaoEntrada(int solicitacaoId, CancellationToken cancellationToken)
+    {
+        var solicitacao = await _solicitacaoRepository
+                                        .FirstOrDefaultAsync(new ConsultarSolicitacaoEntradaPorIdSpec(solicitacaoId), cancellationToken);
+
+        if(solicitacao is null)
+        {
+            _serviceContext.AddError("Solicitação foi excluída ou aceita.");
+            return false;
+        }
+
+        if(solicitacao.Usuario.Id != _currentUser.GetUserId())
+        {
+            _serviceContext.AddError("Não é possível cancelar solicitação de outro usuário.");
+            return false;
+        }
+
+        await _solicitacaoRepository.DeleteAsync(solicitacao, cancellationToken);
+
+        return true;
+    }
 }

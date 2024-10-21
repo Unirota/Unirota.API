@@ -6,5 +6,6 @@ public static class MapSettings
     {
         UsuarioMapSettings.Configure();
         GrupoMapSettings.Configure();
+        EnderecoMapSettings.Configure();
     }
 }

@@ -15,4 +15,6 @@ public interface IUsuarioService : IScopedService
     Task<UsuarioViewModel?> Editar(EditarUsuarioCommand usuario, CancellationToken cancellationToken);
 
     Task<UsuarioViewModel?> ConsultarPorId(int usuarioId, CancellationToken cancellationToken);
+    
+    Task<bool> VerificarUsuarioExiste(int usuarioId);
 }

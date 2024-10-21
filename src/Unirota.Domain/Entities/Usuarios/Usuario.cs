@@ -2,6 +2,7 @@
 using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.UsuariosGrupos;
 using Unirota.Domain.Entities.SolicitacoesDeEntrada;
+using Unirota.Domain.Entities.Enderecos;
 
 namespace Unirota.Domain.Entities.Usuarios;
 
@@ -19,7 +20,7 @@ public class Usuario : BaseEntity, IAggregateRoot
     public ICollection<SolicitacaoDeEntrada> SolicitacoesDeEntrada { get; private set; } = [];
 
     public ICollection<Grupo> GruposComoMotorista { get; private set; } = [];
-
+    public Endereco? Endereco { get; private set; }
 
     public Usuario()
     {
@@ -61,6 +62,12 @@ public class Usuario : BaseEntity, IAggregateRoot
     public Usuario AdicionarGrupo(Grupo grupo)
     {
         GruposComoMotorista.Add(grupo);
+        return this;
+    }
+
+    public Usuario AlterarEndereco(Endereco endereco)
+    {
+        Endereco = endereco;
         return this;
     }
 }

@@ -24,5 +24,9 @@ public class GrupoConfiguration : IEntityTypeConfiguration<Grupo>
         builder.HasMany(u => u.SolicitacoesDeEntrada)
             .WithOne(h => h.Grupo)
             .HasForeignKey(j => j.GrupoId);
+
+        builder.HasMany(a => a.Mensagens)
+            .WithOne(b => b.Grupo)
+            .HasForeignKey(c => c.GrupoId);
     }
 }

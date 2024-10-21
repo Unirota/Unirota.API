@@ -3,15 +3,19 @@ using Unirota.Application.Commands.Corridas;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Handlers.Common;
 using Unirota.Application.Persistence;
+using Unirota.Application.Queries.Corrida;
 using Unirota.Application.Services;
 using Unirota.Application.Services.Corrida;
 using Unirota.Application.Specifications.Grupos;
+using Unirota.Application.ViewModels.Corrida;
 using Unirota.Domain.Entities.Corridas;
 using Unirota.Domain.Entities.Grupos;
 
 namespace Unirota.Application.Handlers;
 public class CorridaRequestHandler : BaseRequestHandler,
                                     IRequestHandler<CriarCorridaCommand, int>
+                                    IRequestHandler<CriarCorridaCommand, int>,
+                                    IRequestHandler<ConsultarCorridaPorIdQuery, List<Corrida>>
 {
     private readonly IReadRepository<Corrida> _readCorridaRepository;
     private readonly IReadRepository<Grupo> _readGrupoRepository;
@@ -46,5 +50,12 @@ public class CorridaRequestHandler : BaseRequestHandler,
 
         var corrida = await _service.Criar(request);
         return corrida;
+
+    }
+
+    public async Task<List<Corrida>> Handle(ConsultarCorridaPorIdQuery request, CancellationToken cancellationToken)
+    {
+        return await _service.ObterPorIdDeGrupo(request, cancellationToken);
+
     }
 }

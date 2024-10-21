@@ -7,7 +7,6 @@ using Unirota.Application.Queries.Corrida;
 using Unirota.Application.Services;
 using Unirota.Application.Services.Corrida;
 using Unirota.Application.Specifications.Grupos;
-using Unirota.Application.ViewModels.Corrida;
 using Unirota.Domain.Entities.Corridas;
 using Unirota.Domain.Entities.Grupos;
 

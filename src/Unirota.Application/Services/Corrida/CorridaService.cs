@@ -2,8 +2,6 @@
 using Unirota.Application.Persistence;
 using Unirota.Application.Queries.Corrida;
 using Unirota.Application.Specification.Corridas;
-using Unirota.Application.Specifications.Grupos;
-using Unirota.Domain.Entities.Corridas;
 
 namespace Unirota.Application.Services.Corrida;
 public class CorridaService : ICorridaService

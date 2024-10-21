@@ -9,6 +9,7 @@ public class ConsultarSolicitacaoEntradaPorIdSpec : Specification<SolicitacaoDeE
     {
         Query
             .Include(solicitacao => solicitacao.Grupo)
+            .Include(solicitacao => solicitacao.Usuario)
             .Where(solicitacao => solicitacao.Id == solicitacaoId);
     }
 }

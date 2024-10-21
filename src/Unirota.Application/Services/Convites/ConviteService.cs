@@ -52,6 +52,5 @@ public class ConviteService : IConviteService
     {
         await _repository.DeleteAsync(convite);
     }
-//
 }
 

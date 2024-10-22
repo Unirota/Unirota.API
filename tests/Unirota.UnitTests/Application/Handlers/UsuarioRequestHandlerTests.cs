@@ -1,14 +1,18 @@
 ﻿using FluentAssertions;
+using Mapster;
 using Moq;
 using Unirota.Application.Commands.Usuarios;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Handlers;
 using Unirota.Application.Persistence;
+using Unirota.Application.Queries.Usuario;
+using Unirota.Application.Requests.Enderecos;
 using Unirota.Application.Services;
 using Unirota.Application.Services.Usuarios;
 using Unirota.Application.Specifications.Usuarios;
+using Unirota.Application.ViewModels.Auth;
+using Unirota.Application.ViewModels.Usuarios;
 using Unirota.Domain.Entities.Usuarios;
-using Unirota.Application.Requests.Enderecos;
 using Unirota.UnitTests.Builder;
 using Xunit;
 
@@ -26,7 +30,7 @@ public class UsuarioRequestHandlerTests
 
     public UsuarioRequestHandlerTests()
     {
-        _handler = new UsuarioRequestHandler(_serviceContext.Object, 
+        _handler = new UsuarioRequestHandler(_serviceContext.Object,
                                              _repository.Object,
                                              _readRepository.Object,
                                              _service.Object,
@@ -104,8 +108,8 @@ public class UsuarioRequestHandlerTests
         var result = await _handler.Handle(request, CancellationToken.None);
 
         //Assert
-        result.Should().Be(default); 
-        _serviceContext.Verify(sc => sc.AddError("CPF inválido"), Times.Once); 
+        result.Should().Be(default);
+        _serviceContext.Verify(sc => sc.AddError("CPF inválido"), Times.Once);
         _repository.Invocations.Should().BeEmpty();
     }
 
@@ -144,8 +148,137 @@ public class UsuarioRequestHandlerTests
         var result = await _handler.Handle(request, CancellationToken.None);
 
         // Assert
-        result.Should().Be(default); 
-        _serviceContext.Verify(sc => sc.AddError("CPF duplicado!"), Times.Once); 
+        result.Should().Be(default);
+        _serviceContext.Verify(sc => sc.AddError("CPF duplicado!"), Times.Once);
         _repository.Invocations.Should().BeEmpty();
+    }
+
+    [Fact(DisplayName = "Handle login deve token quando usuario for valido")]
+    public async Task HandleLogin_ShouldReturnToken()
+    {
+        // Arrange
+        var loginCommand = new LoginCommand
+        {
+            Email = "",
+            Senha = ""
+        };
+
+        var usuario = new UsuarioBuilder().Build();
+        var token = new TokenViewModel
+        {
+            AccessToken = "",
+            Usuario = usuario.Adapt<UsuarioViewModel>(),
+        };
+        _readRepository.Setup(x => x.FirstOrDefaultAsync(It.IsAny<ConsultarUsuarioPorEmailSpec>(), CancellationToken.None))
+            .ReturnsAsync(usuario);
+        _jwtProvider.Setup(x => x.GerarToken(It.IsAny<UsuarioViewModel>()))
+            .Returns(token);
+        _service.Setup(x => x.ValidarSenha(It.IsAny<string>(), It.IsAny<string>()))
+            .Returns(true);
+
+
+        // Act
+        var result = await _handler.Handle(loginCommand, CancellationToken.None);
+
+        // Assert
+        result.Should().BeOfType<TokenViewModel>();
+        _jwtProvider.Invocations.Should().ContainSingle(invocation => invocation.Method.Name == nameof(_jwtProvider.Object.GerarToken));
+    }
+
+    [Fact(DisplayName = "Handle login deve valor default quando usuario não existir")]
+    public async Task HandleLogin_ShouldReturnDefaultValue_WhenUsuarioIsNull()
+    {
+        // Arrange
+        var loginCommand = new LoginCommand
+        {
+            Email = "",
+            Senha = ""
+        };
+
+        // Act
+        var result = await _handler.Handle(loginCommand, CancellationToken.None);
+
+        // Assert
+        result.Should().Be(default);
+        _serviceContext.Verify(x => x.AddError("Usuário não encontrado"), Times.Once);
+    }
+
+    [Fact(DisplayName = "Handle login deve erro quando senha for invalido")]
+    public async Task HandleLogin_ShouldReturnDefaultValue_WhenPasswordIsNull()
+    {
+        // Arrange
+        var loginCommand = new LoginCommand
+        {
+            Email = "",
+            Senha = ""
+        };
+
+        var usuario = new UsuarioBuilder().Build();
+
+        _readRepository.Setup(x => x.FirstOrDefaultAsync(It.IsAny<ConsultarUsuarioPorEmailSpec>(), CancellationToken.None))
+            .ReturnsAsync(usuario);
+        _service.Setup(x => x.ValidarSenha(It.IsAny<string>(), It.IsAny<string>()))
+            .Returns(false);
+
+        // Act
+        var result = await _handler.Handle(loginCommand, CancellationToken.None);
+
+        // Assert
+        result.Should().Be(default);
+        _serviceContext.Verify(x => x.AddError("Senha inválida"), Times.Once);
+    }
+
+    [Fact(DisplayName = "Handle editar deve chamar service e retornar objeto")]
+    public async Task HandleEditar_ShouldCallEditarAndReturnObject()
+    {
+        //Arrange
+        var request = new EditarUsuarioCommand
+        {
+            Id = 1,
+            Nome = "Natan",
+            DataNascimento = DateTime.Now,
+            Senha = "coxinha123",
+            ImagemUrl = "",
+            Endereco = new EditarEnderecoRequest
+            {
+                CEP = "12345678",
+                Bairro = "Bairro",
+                Cidade = "Cidade",
+                Complemento = "Complemento",
+                Logradouro = "Logradouro",
+                Numero = 123,
+                UF = "SP"
+            }
+        };
+
+        var usuario = new UsuarioBuilder().Build();
+        _service.Setup(x => x.Editar(It.IsAny<EditarUsuarioCommand>(), CancellationToken.None))
+            .ReturnsAsync(usuario.Adapt<UsuarioViewModel>());
+
+        //Act
+        var result = await _handler.Handle(request, CancellationToken.None);
+
+        //Assert
+        result.Should().BeOfType<UsuarioViewModel>();
+    }
+
+    [Fact(DisplayName = "Handle consultar por Id deve chamar service e retornar objeto")]
+    public async Task HandleConsultarPorId_ShouldCallEditarAndReturnObject()
+    {
+        //Arrange
+        var request = new ConsultarUsuarioPorIdQuery
+        {
+            Id = 1,
+        };
+
+        var usuario = new UsuarioBuilder().Build();
+        _service.Setup(x => x.ConsultarPorId(It.IsAny<int>(), CancellationToken.None))
+            .ReturnsAsync(usuario.Adapt<UsuarioViewModel>());
+
+        //Act
+        var result = await _handler.Handle(request, CancellationToken.None);
+
+        //Assert
+        result.Should().BeOfType<UsuarioViewModel>();
     }
 }

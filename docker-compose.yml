@@ -2,7 +2,7 @@
 
 services:
   api:
-    image: unirota.api
+    image: unirota/unirota-api:latest
     build:
       context: .
       dockerfile: ./src/Unirota.API/Dockerfile

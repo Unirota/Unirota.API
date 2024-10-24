@@ -67,7 +67,7 @@ jobs:
       run: |
         aws ecs run-task \
           --cluster ${{ env.ECS_CLUSTER }} \
-          --task-definition ${{ steps.task-def.outputs.task-definition }} \
+          --task-definition UnirotaApiTaskDefinition \
           --launch-type FARGATE \
           --network-configuration "awsvpcConfiguration={subnets=[subnet-0e0c4c7e0611249da,subnet-01e41542a64d054f5,subnet-03613c8d7ae027761],securityGroups=[sg-097aedf3d458e9db8],assignPublicIp=ENABLED}" \
           --count 1

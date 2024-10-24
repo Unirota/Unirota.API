@@ -35,15 +35,21 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Build, tag, and push image to Amazon ECR
-      id: build-image
+    - name: Build, tag, and push images to Amazon ECR
+      id: build-images
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+        docker-compose -f docker-compose.yml build
+
+        for service in $(docker-compose -f docker-compose.yml config --services); do
+          IMAGE_NAME=$ECR_REGISTRY/$ECR_REPOSITORY:$service-$IMAGE_TAG
+          docker tag $service:latest $IMAGE_NAME
+          docker push $IMAGE_NAME
+          echo "image=$IMAGE_NAME" >> $GITHUB_OUTPUT
+        done
+
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def

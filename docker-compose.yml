@@ -1,6 +1,19 @@
-﻿services:
-  unirota.api:
-    image: unirota.api
+﻿version: '3.8'
+
+services:
+  api:
+    image: unirota/unirota-api:latest
     build:
       context: .
-      dockerfile: Unirota/Dockerfile
+      dockerfile: ./src/Unirota.API/Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=User ID=unirota_admin;Password=fkywW9##b6Fkc%^;Host=unirota-db-instance.cxeqekys2w8q.us-east-2.rds.amazonaws.com;Port=5432;Database=postgres;Pooling=true;
+    networks:
+      - unirota-network
+
+networks:
+  unirota-network:
+    driver: bridge

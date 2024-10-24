@@ -44,16 +44,15 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        IMAGE_TAG: ${{ github.sha }}
       run: |
         # Build images defined in docker-compose.yml
         docker-compose -f docker-compose.yml build
 
         # Tag and push each service's image
-        IMAGE_NAME=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        docker tag unirota/unirota-api:latest $IMAGE_NAME
-        docker push $IMAGE_NAME
-        echo "image=$IMAGE_NAME" >> $GITHUB_OUTPUT
+        LATEST_IMAGE_NAME=$ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker tag unirota/unirota-api:latest $LATEST_IMAGE_NAME
+        docker push $LATEST_IMAGE_NAME
+        echo "image=$LATEST_IMAGE_NAME" >> $GITHUB_OUTPUT
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def

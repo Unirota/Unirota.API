@@ -62,6 +62,20 @@ jobs:
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.build-image.outputs.image }}
 
+    - name: Stop Previous ECS Task
+      run: |
+        TASK_ARN=$(aws ecs list-tasks \
+          --cluster ${{ env.ECS_CLUSTER }} \
+          --query 'taskArns[0]' \
+          --output text)
+        if [ "$TASK_ARN" != "None" ]; then
+          aws ecs stop-task \
+            --cluster ${{ env.ECS_CLUSTER }} \
+            --task $TASK_ARN
+        else
+          echo "No previous task is running."
+        fi
+
     - name: Run ECS Task
       run: |
         aws ecs run-task \

@@ -8,7 +8,7 @@ env:
   AWS_REGION: us-east-2
   ECR_REPOSITORY: unirota/unirota-api
   ECS_CLUSTER: UnirotaApiCluster
-  ECS_TASK_DEFINITION: .aws/UnirotaApiTaskDefinition-revision1.json
+  ECS_TASK_DEFINITION: .aws/UnirotaApiTaskDefinition-revision2.json
   CONTAINER_NAME: unirota-api-instance
 
 permissions:

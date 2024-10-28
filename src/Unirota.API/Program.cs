@@ -62,9 +62,12 @@ builder.Services.ConfigureOptions<JwtOptionsSetup>();
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddMigrations(builder.Configuration);
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+builder.Services.AddHealthChecks();
 
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
+
+app.MapHealthChecks("/healthz");
 
 //migration runner
 using (var scope = app.Services.CreateScope())

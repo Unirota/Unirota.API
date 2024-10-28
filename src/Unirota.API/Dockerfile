@@ -26,6 +26,4 @@ COPY --from=publish /app/publish .
 
 EXPOSE 8080
 
-ENV ASPNETCORE_URLS=http://+:80
-
 ENTRYPOINT ["dotnet", "Unirota.API.dll"]

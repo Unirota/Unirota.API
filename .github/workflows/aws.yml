@@ -1,4 +1,4 @@
-name: Deploy to Amazon ECS Task
+name: Deploy to Amazon ECS Service
 
 on:
   push:
@@ -8,7 +8,8 @@ env:
   AWS_REGION: us-east-2
   ECR_REPOSITORY: unirota/unirota-api
   ECS_CLUSTER: UnirotaApiCluster
-  ECS_TASK_DEFINITION: .aws/UnirotaApiTaskDefinition-revision2.json
+  ECS_SERVICE_NAME: UnirotaApiService
+  ECS_TASK_DEFINITION: .aws/UnirotaApiTaskDef-revision1.json
   CONTAINER_NAME: unirota-api-instance
 
 permissions:
@@ -62,25 +63,9 @@ jobs:
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.build-image.outputs.image }}
 
-    - name: Stop Previous ECS Task
+    - name: Deploy ECS Service Update
       run: |
-        TASK_ARN=$(aws ecs list-tasks \
+        aws ecs update-service \
           --cluster ${{ env.ECS_CLUSTER }} \
-          --query 'taskArns[0]' \
-          --output text)
-        if [ "$TASK_ARN" != "None" ]; then
-          aws ecs stop-task \
-            --cluster ${{ env.ECS_CLUSTER }} \
-            --task $TASK_ARN
-        else
-          echo "No previous task is running."
-        fi
-
-    - name: Run ECS Task
-      run: |
-        aws ecs run-task \
-          --cluster ${{ env.ECS_CLUSTER }} \
-          --task-definition UnirotaApiTaskDefinition \
-          --launch-type FARGATE \
-          --network-configuration "awsvpcConfiguration={subnets=[subnet-0e0c4c7e0611249da,subnet-01e41542a64d054f5,subnet-03613c8d7ae027761],securityGroups=[sg-097aedf3d458e9db8],assignPublicIp=ENABLED}" \
-          --count 1
+          --service ${{ env.ECS_SERVICE_NAME }} \
+          --force-new-deployment

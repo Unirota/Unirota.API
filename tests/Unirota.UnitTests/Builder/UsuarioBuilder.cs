@@ -8,6 +8,7 @@ public class UsuarioBuilder
 {
     private string _cpf;
     private Endereco _endereco;
+    private string _habilitacao;
 
     public Usuario Build()
     {
@@ -28,6 +29,7 @@ public class UsuarioBuilder
                     var endereco = new EnderecoBuilder().WithUsuarioId(usuario.Id).Build();
 
                     usuario.AlterarEndereco(_endereco ?? endereco);
+                    usuario.AlterarHabilitacao(_habilitacao ?? "");
 
                     return usuario;
                 });
@@ -44,6 +46,12 @@ public class UsuarioBuilder
     public UsuarioBuilder WithEndereco(Endereco endereco)
     {
         _endereco = endereco;
+        return this;
+    }
+
+    public UsuarioBuilder WithHabilitacao(string habilitacao)
+    {
+        _habilitacao = habilitacao;
         return this;
     }
 }

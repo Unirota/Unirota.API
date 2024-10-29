@@ -47,7 +47,7 @@ public class GrupoRequestHandler : BaseRequestHandler,
             return default;
         }
 
-        if (motorista.Habilitacao is null)
+        if (string.IsNullOrEmpty(motorista.Habilitacao))
         {
             ServiceContext.AddError("Motorista informado não possui habilitação cadastrada");
             return default;
@@ -58,6 +58,7 @@ public class GrupoRequestHandler : BaseRequestHandler,
 
 
     }
+    
     public async Task<int> Handle(EditarGrupoCommand request, CancellationToken cancellationToken)
     {
         return await _service.Editar(request, cancellationToken);
@@ -99,6 +100,12 @@ public class GrupoRequestHandler : BaseRequestHandler,
 
     public async Task<ICollection<ListarGruposViewModel>> Handle(ObterGrupoUsuarioCommand request, CancellationToken cancellationToken)
     {
+        if (_currentUser.GetUserId() != request.Id)
+        {
+            ServiceContext.AddError("Usuário não pode consultar grupos de outro usuário");
+            return [];
+        }
+
         var usuario = await _readUserRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(_currentUser.GetUserId()), cancellationToken);
 
         if (usuario is null)
@@ -107,15 +114,9 @@ public class GrupoRequestHandler : BaseRequestHandler,
             return [];
         }
 
-        if(usuario.GruposComoMotorista is null)
+        if(usuario.GruposComoMotorista.Count is 0)
         {
             ServiceContext.AddError("Este usuário não tem grupos");
-            return [];
-        }
-
-        if(_currentUser.GetUserId() != request.Id)
-        {
-            ServiceContext.AddError("Usuário não pode consultar grupos de outro usuário");
             return [];
         }
 

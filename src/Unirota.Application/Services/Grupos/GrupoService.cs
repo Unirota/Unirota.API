@@ -8,7 +8,7 @@ using Unirota.Domain.Entities.Grupos;
 
 namespace Unirota.Application.Services.Grupos;
 
-internal class GrupoService : IGrupoService
+public class GrupoService : IGrupoService
 {
     private readonly IRepository<Grupo> _repository;
     private readonly IServiceContext _serviceContext;

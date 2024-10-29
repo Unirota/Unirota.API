@@ -70,4 +70,10 @@ public class Usuario : BaseEntity, IAggregateRoot
         Endereco = endereco;
         return this;
     }
+
+    public Usuario AlterarHabilitacao(string habilitacao)
+    {
+        Habilitacao = habilitacao;
+        return this;
+    }
 }

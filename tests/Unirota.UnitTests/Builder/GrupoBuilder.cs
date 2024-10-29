@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using Unirota.Domain.Entities.Grupos;
+using Unirota.Domain.Entities.UsuariosGrupos;
 
 namespace Unirota.UnitTests.Builder;
 
@@ -11,10 +12,18 @@ public class GrupoBuilder
     private DateTime _inicio = DateTime.Now;
     private int _motoristaId = 1;
     private string _destino = "Destino Padrão";
+    private List<UsuariosGrupo> _passageiros = new List<UsuariosGrupo>();
 
     public Grupo Build()
     {
-        return Build(1).First();
+        var grupo = new Grupo(_nome, _limite, _inicio, _motoristaId, _destino);
+
+        foreach (var passageiro in _passageiros)
+        {
+            grupo.AdicionarPassageiro(passageiro.UsuarioId);
+        }
+
+        return grupo;
     }
 
     public ICollection<Grupo> Build(int count)
@@ -23,6 +32,10 @@ public class GrupoBuilder
             .CustomInstantiator(f =>
             {
                 var grupo = new Grupo(_nome, _limite, _inicio, _motoristaId, _destino);
+                foreach (var passageiro in _passageiros)
+                {
+                    grupo.AdicionarPassageiro(passageiro.UsuarioId);
+                }
                 return grupo;
             });
 
@@ -56,6 +69,12 @@ public class GrupoBuilder
     public GrupoBuilder WithDestino(string destino)
     {
         _destino = destino;
+        return this;
+    }
+
+    public GrupoBuilder WithPassageiro(int passageiroId)
+    {
+        _passageiros.Add(new UsuariosGrupo { UsuarioId = passageiroId });
         return this;
     }
 }

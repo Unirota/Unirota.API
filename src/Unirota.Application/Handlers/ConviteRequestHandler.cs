@@ -47,7 +47,7 @@ public class ConviteRequestHandler : BaseRequestHandler,
             return default;
         }
 
-        if (motorista.Habilitacao is null)
+        if (string.IsNullOrEmpty(motorista.Habilitacao))
         {
             ServiceContext.AddError("Motorista informado não possui habilitação cadastrada");
             return default;

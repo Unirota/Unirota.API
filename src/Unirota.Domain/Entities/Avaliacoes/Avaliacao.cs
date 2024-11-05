@@ -20,4 +20,6 @@ public class Avaliacao : BaseEntity, IAggregateRoot
         UsuarioId = usuarioId;
         CorridaId = corridaId;
     }
+
+    public Avaliacao() { }
 }

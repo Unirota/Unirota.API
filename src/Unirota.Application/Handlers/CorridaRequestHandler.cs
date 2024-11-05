@@ -12,8 +12,8 @@ using Unirota.Domain.Entities.Grupos;
 
 namespace Unirota.Application.Handlers;
 public class CorridaRequestHandler : BaseRequestHandler,
-                                    IRequestHandler<CriarCorridaCommand, int>,
-                                    IRequestHandler<ConsultarCorridaPorIdQuery, List<Corrida>>
+                                     IRequestHandler<CriarCorridaCommand, int>,
+                                     IRequestHandler<ConsultarCorridaPorIdQuery, List<Corrida>>
 {
     private readonly IReadRepository<Corrida> _readCorridaRepository;
     private readonly IReadRepository<Grupo> _readGrupoRepository;
@@ -54,6 +54,5 @@ public class CorridaRequestHandler : BaseRequestHandler,
     public async Task<List<Corrida>> Handle(ConsultarCorridaPorIdQuery request, CancellationToken cancellationToken)
     {
         return await _service.ObterPorIdDeGrupo(request, cancellationToken);
-
     }
 }

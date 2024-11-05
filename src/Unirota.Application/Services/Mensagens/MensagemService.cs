@@ -2,20 +2,15 @@ using Mapster;
 using Unirota.Application.Commands.Mensagens;
 using Unirota.Application.Persistence;
 using Unirota.Application.Queries.Grupo;
-using Unirota.Application.Queries.Mensagens;
 using Unirota.Application.Services.Grupos;
 using Unirota.Application.Services.Usuarios;
-using Unirota.Application.Specifications.Grupos;
 using Unirota.Application.Specifications.Mensagens;
-using Unirota.Application.Specifications.Usuarios;
 using Unirota.Application.ViewModels.Mensagens;
-using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.Mensagens;
-using Unirota.Domain.Entities.Usuarios;
 
 namespace Unirota.Application.Services.Mensagens;
 
-internal class MensagemService : IMensagemService
+public class MensagemService : IMensagemService
 {
     private readonly IRepository<Mensagem> _mensagemRepository;
     private readonly IGrupoService _grupoService;

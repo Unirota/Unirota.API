@@ -7,14 +7,16 @@ namespace Unirota.Application.Services.Corrida;
 public class CorridaService : ICorridaService
 {
     private readonly IRepository<Domain.Entities.Corridas.Corrida> _repository;
-    private readonly IReadRepository<Domain.Entities.Corridas.Corrida> _readrepository;
+    private readonly IReadRepository<Domain.Entities.Corridas.Corrida> _readRepository;
     private readonly IServiceContext _serviceContext;
 
-    public CorridaService(IRepository<Domain.Entities.Corridas.Corrida> repository, IServiceContext serviceContext, IReadRepository<Domain.Entities.Corridas.Corrida> readRepository)
+    public CorridaService(IRepository<Domain.Entities.Corridas.Corrida> repository,
+                          IServiceContext serviceContext,
+                          IReadRepository<Domain.Entities.Corridas.Corrida> readRepository)
     {
         _repository = repository;
         _serviceContext = serviceContext;
-        _readrepository = readRepository;
+        _readRepository = readRepository;
     }
 
     public async Task<int> Criar(CriarCorridaCommand dto)
@@ -27,7 +29,7 @@ public class CorridaService : ICorridaService
 
     public async Task<List<Domain.Entities.Corridas.Corrida?>> ObterPorIdDeGrupo(ConsultarCorridaPorIdQuery request, CancellationToken cancellationToken)
     {
-        var corridas = await _readrepository.ListAsync(new ConsultarCorridaPorIdSpec(request.Id), cancellationToken);
+        var corridas = await _readRepository.ListAsync(new ConsultarCorridaPorIdSpec(request.Id), cancellationToken);
         
         if(corridas == null)
             _serviceContext.AddError("Não existe corridas para este grupo");

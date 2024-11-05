@@ -10,16 +10,15 @@ using Unirota.Domain.Entities.Avaliacoes;
 
 namespace Unirota.Application.Services.Avaliacoes;
 
-internal class AvaliacaoService(
-    IRepository<Avaliacao> avaliacaoRepository,
-    ICorridaService corridaService,
-    IUsuarioService usuarioService,
-    IServiceContext serviceContext)
-    : IAvaliacaoService
+public class AvaliacaoService(IRepository<Avaliacao> avaliacaoRepository,
+                              ICorridaService corridaService,
+                              IUsuarioService usuarioService,
+                              IServiceContext serviceContext)
+                              : IAvaliacaoService
 {
     public async Task<int> Criar(CriarAvaliacaoCommand command, int usuarioId)
     {
-        var corridas = await corridaService.ObterPorIdDeGrupo(new ConsultarCorridaPorIdQuery { Id = command.CorridaId }, CancellationToken.None);;
+        var corridas = await corridaService.ObterPorIdDeGrupo(new ConsultarCorridaPorIdQuery { Id = command.CorridaId }, CancellationToken.None);
         
         if (corridas == null || !corridas.Any() || !corridas.Any(c => c?.Id == command.CorridaId))
         {

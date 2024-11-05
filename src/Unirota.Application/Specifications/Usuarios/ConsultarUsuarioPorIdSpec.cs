@@ -6,7 +6,9 @@ public class ConsultarUsuarioPorIdSpec : Specification<Domain.Entities.Usuarios.
 {
     public ConsultarUsuarioPorIdSpec(int id)
     {
-        Query.Include(x => x.Endereco)
+        Query
+            .Include(x => x.GruposComoMotorista)
+            .Include(x => x.Endereco)
             .Where(usuario => usuario.Id == id);
     }
 }

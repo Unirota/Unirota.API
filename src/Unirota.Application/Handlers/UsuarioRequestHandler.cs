@@ -1,6 +1,5 @@
 ﻿using Mapster;
 using MediatR;
-using System.Runtime.ConstrainedExecution;
 using Unirota.Application.Commands.Usuarios;
 using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Handlers.Common;
@@ -13,7 +12,6 @@ using Unirota.Application.ViewModels.Auth;
 using Unirota.Application.ViewModels.Usuarios;
 using Unirota.Domain.Entities.Enderecos;
 using Unirota.Domain.Entities.Usuarios;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Unirota.Application.Handlers;
 

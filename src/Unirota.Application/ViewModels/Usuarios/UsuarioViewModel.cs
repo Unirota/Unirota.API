@@ -7,9 +7,9 @@ public class UsuarioViewModel
     public int Id { get; set; }
     public string Nome { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-
     public bool Motorista { get; set; }
     public EnderecoViewModel Endereco { get; set; }
-    
+    public int Corridas { get; set; }
     public DateTime DataNascimento { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

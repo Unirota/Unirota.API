@@ -16,6 +16,8 @@ public static class UsuarioMapSettings
             .Map(dest => dest.Email, src => src.Email)
             .Map(dest => dest.Motorista, src => !string.IsNullOrEmpty(src.Habilitacao))
             .Map(dest => dest.DataNascimento, src => src.DataNascimento)
+            .Map(dest => dest.Corridas, src => src.GruposComoMotorista.Count + src.GruposComoPassageiro.Count)
+            .Map(dest => dest.CreatedAt, src => src.CreatedAt)
             .Map(dest => dest.Endereco, src => src.Endereco.Adapt<EnderecoViewModel>());
     }
 }

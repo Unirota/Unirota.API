@@ -15,5 +15,5 @@ public interface IGrupoService : IScopedService
     public Task<ICollection<ListarGruposViewModel>> ObterPorUsuarioId(int usuarioId);
     public Task<int> Editar(EditarGrupoCommand request, CancellationToken cancellationToken);
     public Task<Grupo?> ObterPorId(ConsultarGrupoPorIdQuery request, CancellationToken cancellationToken);
-    public Task<ICollection<ListarGruposViewModel>> ObterGruposParaHome(string destino, CancellationToken cancellationToken);
+    public Task<ICollection<ListarGruposViewModel>> ObterGruposParaHome(ObterGruposHomeQuery destino, CancellationToken cancellationToken);
 }

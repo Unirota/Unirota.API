@@ -81,9 +81,30 @@ public class GrupoService : IGrupoService
         return gruposViewModel;
     }
 
-    public async Task<ICollection<ListarGruposViewModel>> ObterGruposParaHome(string destino,CancellationToken cancellationToken)
+    public async Task<ICollection<ListarGruposViewModel>> ObterGruposParaHome(ObterGruposHomeQuery destino,CancellationToken cancellationToken)
     {
         var grupos = await _repository.ListAsync(new ObterGruposParaHomeSpec(destino), cancellationToken);
-        return grupos.Adapt<ICollection<ListarGruposViewModel>>();
+        var gruposListados = grupos.Select(x =>
+        {
+            var todasNotas = x.Corridas.SelectMany(x => x.Avaliacoes.Select(y => y.Nota));
+            var notas = todasNotas.Any() ? todasNotas.Average() : 0;
+            return new ListarGruposViewModel
+            {
+                Id = x.Id,
+                Nome = x.Nome,
+                Descricao = x.Descricao,
+                Motorista = x.Motorista.Nome,
+                Destino = x.Destino,
+                HoraInicio = x.HoraInicio,
+                Nota = double.Round(notas, 2)
+            };
+        });
+
+        if (destino.Nota != 0)
+        {
+            gruposListados.Where(x => x.Nota >= destino.Nota);
+        }
+        
+        return gruposListados.ToList();
     }
 }

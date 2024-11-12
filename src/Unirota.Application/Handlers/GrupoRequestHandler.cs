@@ -128,6 +128,6 @@ public class GrupoRequestHandler : BaseRequestHandler,
 
     public async Task<ICollection<ListarGruposViewModel>> Handle(ObterGruposHomeQuery request, CancellationToken cancellationToken)
     {
-        return await _service.ObterGruposParaHome(request.Destino, cancellationToken);
+        return await _service.ObterGruposParaHome(request, cancellationToken);
     }
 }

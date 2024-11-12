@@ -80,4 +80,10 @@ public class GrupoService : IGrupoService
         var gruposViewModel = grupos.Adapt<List<ListarGruposViewModel>>();
         return gruposViewModel;
     }
+
+    public async Task<ICollection<ListarGruposViewModel>> ObterGruposParaHome(string destino,CancellationToken cancellationToken)
+    {
+        var grupos = await _repository.ListAsync(new ObterGruposParaHomeSpec(destino), cancellationToken);
+        return grupos.Adapt<ICollection<ListarGruposViewModel>>();
+    }
 }

@@ -1,12 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Unirota.Application.ViewModels;
 using Unirota.Application.ViewModels.Mensagens;
 
 namespace Unirota.Application.Queries.Mensagens;
 
 
-public class ListarMensagensPorGrupoQuery : IRequest<ResultadoPaginadoViewModel<ListarMensagensViewModel>?>
+public class ListarMensagensPorGrupoQuery : IRequest<ICollection<ListarMensagensViewModel>?>
 {
     [FromRoute]
     public int GrupoId { get; set; }

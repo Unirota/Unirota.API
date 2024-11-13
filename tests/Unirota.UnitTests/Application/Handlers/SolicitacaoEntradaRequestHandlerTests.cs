@@ -154,7 +154,7 @@ public class SolicitacaoEntradaRequestHandlerTests
     {
         // Arrange
         var request = new AceitarEntradaGrupoCommand { Id = 1 };
-        _solicitacaoEntradaService.Setup(service => service.AceitarSolicitacaoEntrada(request.Id, It.IsAny<CancellationToken>()))
+        _solicitacaoEntradaService.Setup(service => service.AceitarSolicitacaoEntrada(request.Id, "", It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
 
         // Act
@@ -162,7 +162,7 @@ public class SolicitacaoEntradaRequestHandlerTests
 
         // Assert
         Assert.True(result);
-        _solicitacaoEntradaService.Verify(service => service.AceitarSolicitacaoEntrada(request.Id, It.IsAny<CancellationToken>()), Times.Once);
+        _solicitacaoEntradaService.Verify(service => service.AceitarSolicitacaoEntrada(request.Id, "", It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact(DisplayName = "Deve recusar solicitação de entrada ao grupo com sucesso")]

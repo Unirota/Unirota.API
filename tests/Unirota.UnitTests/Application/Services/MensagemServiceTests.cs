@@ -15,6 +15,8 @@ using Unirota.Application.Queries.Grupo;
 using Unirota.Domain.Entities.Grupos;
 using Xunit;
 using FluentAssertions;
+using Microsoft.AspNetCore.SignalR;
+using Unirota.Application.Hubs;
 
 namespace Unirota.UnitTests.Application.Services;
 
@@ -24,6 +26,7 @@ public class MensagemServiceTests
     private readonly Mock<IGrupoService> _grupoService = new();
     private readonly Mock<IUsuarioService> _usuarioService = new();
     private readonly Mock<IServiceContext> _serviceContext = new();
+    private readonly Mock<IHubContext<ChatHub>> _chatHub = new();
     private MensagemService _service;
 
     public MensagemServiceTests()
@@ -31,7 +34,8 @@ public class MensagemServiceTests
         _service = new(_mensagemRepository.Object,
                        _grupoService.Object,
                        _usuarioService.Object,
-                       _serviceContext.Object);
+                       _serviceContext.Object,
+                       _chatHub.Object);
     }
 
     [Fact(DisplayName = "Deve criar mensagem quando todos os dados estiverem corretos")]

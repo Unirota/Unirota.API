@@ -5,14 +5,10 @@ namespace Unirota.Application.Specifications.Mensagens;
 
 public class ListarMensagemBaseSpec : Specification<Mensagem>
 {
-    public ListarMensagemBaseSpec(int pagina,
-                                  int quantidadeRegistros,
-                                  int grupoId)
+    public ListarMensagemBaseSpec(int grupoId)
     {
         Query
-            .Where(grupo => grupo.Id == grupoId)
-            .Skip((pagina - 1) * quantidadeRegistros)
-            .Take(quantidadeRegistros)
+            .Where(grupo => grupo.GrupoId == grupoId)
             .Include(x => x.Usuario)
             .OrderByDescending(grupo => grupo.CreatedAt);
     }

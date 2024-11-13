@@ -35,7 +35,7 @@ public class MensagemService : IMensagemService
         _chatHub = chathub;
     }
 
-    public async Task<Mensagem?> Criar(CriarMensagemCommand command, int usuarioId)
+    public async Task<ListarMensagensViewModel?> Criar(CriarMensagemCommand command, int usuarioId)
     {
         var grupo = await _grupoService.ObterPorId(new ConsultarGrupoPorIdQuery
         {
@@ -65,7 +65,7 @@ public class MensagemService : IMensagemService
             var mensagem = new Mensagem(command.Conteudo, usuarioId, command.GrupoId);
             await _mensagemRepository.AddAsync(mensagem);
             await _chatHub.Clients.Group(command.GrupoId.ToString()).SendAsync("ReceiveMessage", usuarioId, command.Conteudo);
-            return mensagem;
+            return mensagem.Adapt<ListarMensagensViewModel>();
         }
         catch (Exception ex)
         {

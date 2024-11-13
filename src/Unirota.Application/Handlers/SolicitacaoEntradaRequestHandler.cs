@@ -82,7 +82,7 @@ public class SolicitacaoEntradaRequestHandler : BaseRequestHandler,
 
     public async Task<bool> Handle(AceitarEntradaGrupoCommand request, CancellationToken cancellationToken)
     {
-        return await _solicitacaoEntradaService.AceitarSolicitacaoEntrada(request.Id, cancellationToken);
+        return await _solicitacaoEntradaService.AceitarSolicitacaoEntrada(request.Id, request.ContextId, cancellationToken);
     }
 
     public async Task<bool> Handle(RecusarEntradaGrupoCommand request, CancellationToken cancellationToken)

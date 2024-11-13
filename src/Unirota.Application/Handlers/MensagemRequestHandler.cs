@@ -15,7 +15,7 @@ using Unirota.Domain.Entities.Mensagens;
 namespace Unirota.Application.Commands.Mensagens;
 
 public class MensagemRequestHandler : BaseRequestHandler,
-                                      IRequestHandler<CriarMensagemCommand, int>,
+                                      IRequestHandler<CriarMensagemCommand, Mensagem>,
                                       IRequestHandler<ListarMensagensPorGrupoQuery, ResultadoPaginadoViewModel<ListarMensagensViewModel>?>
 {
     private readonly IMensagemService _mensagemService;
@@ -35,7 +35,7 @@ public class MensagemRequestHandler : BaseRequestHandler,
         _readRepository = readRepository;
     }
 
-    public async Task<int> Handle(CriarMensagemCommand request, CancellationToken cancellationToken)
+    public async Task<Mensagem> Handle(CriarMensagemCommand request, CancellationToken cancellationToken)
     {
         var usuarioId = _currentUser.GetUserId(); 
         return await _mensagemService.Criar(request, usuarioId);

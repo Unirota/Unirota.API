@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.SignalR;
 using Unirota.Application.Common.Interfaces;
+using Unirota.Application.Hubs;
 using Unirota.Application.Persistence;
 using Unirota.Application.Specifications.SolicitacaoEntrada;
 using Unirota.Domain.Entities.SolicitacoesDeEntrada;
@@ -11,12 +13,14 @@ public class SolicitacaoEntradaService : ISolicitacaoEntradaService
     private readonly IRepository<SolicitacaoDeEntrada> _solicitacaoRepository;
     private readonly IServiceContext _serviceContext;
     private readonly ICurrentUser _currentUser;
+    private readonly IHubContext<ChatHub> _chatHub;
 
-    public SolicitacaoEntradaService(IRepository<SolicitacaoDeEntrada> solicitacaoRepository, IServiceContext serviceContext, ICurrentUser currentUser)
+    public SolicitacaoEntradaService(IRepository<SolicitacaoDeEntrada> solicitacaoRepository, IServiceContext serviceContext, ICurrentUser currentUser, IHubContext<ChatHub> chatHub)
     {
         _solicitacaoRepository = solicitacaoRepository;
         _serviceContext = serviceContext;
         _currentUser = currentUser;
+        _chatHub = chatHub;
     }
 
     public async Task<bool> CriarSolicitacaoEntrada(int usuarioId, int grupoId)
@@ -27,7 +31,7 @@ public class SolicitacaoEntradaService : ISolicitacaoEntradaService
         return true;
     }
 
-    public async Task<bool> AceitarSolicitacaoEntrada(int solicitacaoId, CancellationToken cancellationToken)
+    public async Task<bool> AceitarSolicitacaoEntrada(int solicitacaoId, string contextId, CancellationToken cancellationToken)
     {
         var solicitacao = await _solicitacaoRepository
                             .FirstOrDefaultAsync(new ConsultarSolicitacaoEntradaPorIdSpec(solicitacaoId), cancellationToken);
@@ -47,8 +51,8 @@ public class SolicitacaoEntradaService : ISolicitacaoEntradaService
         solicitacao.Aceitar();
 
         solicitacao.Grupo.AdicionarPassageiro(solicitacao.UsuarioId);
-        await _solicitacaoRepository.SaveChangesAsync();
-
+        await _solicitacaoRepository.SaveChangesAsync(cancellationToken);
+        await _chatHub.Groups.AddToGroupAsync(contextId, solicitacao.Grupo.Id.ToString());
         return true;
     }
 

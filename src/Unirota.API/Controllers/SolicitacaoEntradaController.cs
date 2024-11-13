@@ -29,6 +29,7 @@ public class SolicitacaoEntradaController : BaseApiController
     [Authorize]
     public async Task<IActionResult> Aceitar(AceitarEntradaGrupoCommand command)
     {
+        command.ContextId = HttpContext.Connection.Id;
         return GetResponse(await Mediator.Send(command));
     }
 

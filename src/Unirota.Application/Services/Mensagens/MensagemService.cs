@@ -59,12 +59,13 @@ public class MensagemService : IMensagemService
             _serviceContext.AddError("Usuário não pertence ao grupo");
             return default;
         }
-    
+
         try
         {
             var mensagem = new Mensagem(command.Conteudo, usuarioId, command.GrupoId);
+            var usuarioMsg = await _usuarioService.ConsultarPorId(usuarioId, CancellationToken.None);
             await _mensagemRepository.AddAsync(mensagem);
-            await _chatHub.Clients.Group(command.GrupoId.ToString()).SendAsync("ReceiveMessage", usuarioId, command.Conteudo);
+            await _chatHub.Clients.Group(command.GrupoId.ToString()).SendAsync("ReceiveMessage", usuarioId, usuarioMsg?.Nome, command.Conteudo);
             return mensagem.Adapt<ListarMensagensViewModel>();
         }
         catch (Exception ex)

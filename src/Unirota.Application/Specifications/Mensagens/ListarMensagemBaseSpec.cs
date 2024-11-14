@@ -10,6 +10,6 @@ public class ListarMensagemBaseSpec : Specification<Mensagem>
         Query
             .Where(grupo => grupo.GrupoId == grupoId)
             .Include(x => x.Usuario)
-            .OrderByDescending(grupo => grupo.CreatedAt);
+            .OrderBy(grupo => grupo.CreatedAt);
     }
 }

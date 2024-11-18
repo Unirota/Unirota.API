@@ -80,6 +80,7 @@ public class GrupoService : IGrupoService
         return grupos.Select(x => new ListarGruposViewModel
         {
             Id = x.Id,
+            Nome = x.Nome,
             UltimaMensagem = x.Mensagens.OrderByDescending(y => y.CreatedAt).First().Conteudo,
             Descricao = x.Descricao,
             Motorista = x.Motorista.Nome,

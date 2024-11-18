@@ -77,8 +77,15 @@ public class GrupoService : IGrupoService
         var gruposComoPassageiro = await _repository.ListAsync(new ConsultarGrupoComoPassageiroSpec(usuarioId));
         var gruposComoMotorista = await _repository.ListAsync(new ConsultarGrupoComoMotoristaSpec(usuarioId));
         var grupos = gruposComoPassageiro.Concat(gruposComoMotorista).ToList();
-        var gruposViewModel = grupos.Adapt<List<ListarGruposViewModel>>();
-        return gruposViewModel;
+        return grupos.Select(x => new ListarGruposViewModel
+        {
+            Id = x.Id,
+            UltimaMensagem = x.Mensagens.OrderBy(y => y.CreatedAt).Last().Conteudo,
+            Descricao = x.Descricao,
+            Motorista = x.Motorista.Nome,
+            HoraInicio = x.HoraInicio,
+            Nota = 5.0
+        }).ToList();
     }
 
     public async Task<ICollection<ListarGruposViewModel>> ObterGruposParaHome(ObterGruposHomeQuery destino,CancellationToken cancellationToken)

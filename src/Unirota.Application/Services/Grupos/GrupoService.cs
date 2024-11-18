@@ -84,6 +84,7 @@ public class GrupoService : IGrupoService
             UltimaMensagem = x.Mensagens.OrderByDescending(y => y.CreatedAt).First().Conteudo,
             Descricao = x.Descricao,
             Motorista = x.Motorista.Nome,
+            Destino = x.Destino,
             HoraInicio = x.HoraInicio,
             Nota = 5.0
         }).ToList();

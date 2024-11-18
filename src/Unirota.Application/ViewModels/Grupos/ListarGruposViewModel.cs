@@ -7,6 +7,7 @@ public class ListarGruposViewModel
     public string? Descricao { get; set; }
     public string Motorista { get; set; }
     public string Destino { get; set; }
+    public string UltimaMensagem { get; set; }
     public DateTime HoraInicio { get; set; }
     public double Nota { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unirota.API.Controllers.Common;
 using Unirota.Application.Commands.Usuarios;
@@ -32,6 +33,13 @@ public class UsuarioController : BaseApiController
     [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> ObterPorId(ConsultarUsuarioPorIdQuery request)
+    {
+        return GetResponse(await Mediator.Send(request));
+    }
+
+    [Authorize]
+    [HttpPut("cadastroMotorista")]
+    public async Task<IActionResult> CadastrarMotorista([FromBody] CadastrarMotoristaCommand request)
     {
         return GetResponse(await Mediator.Send(request));
     }

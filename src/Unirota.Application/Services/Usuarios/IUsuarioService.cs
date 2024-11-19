@@ -17,4 +17,6 @@ public interface IUsuarioService : IScopedService
     Task<UsuarioViewModel?> ConsultarPorId(int usuarioId, CancellationToken cancellationToken);
     
     Task<bool> VerificarUsuarioExiste(int usuarioId);
+
+    Task<bool> CadastrarMotorista(string habilitacao);
 }

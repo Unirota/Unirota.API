@@ -19,7 +19,8 @@ public class UsuarioRequestHandler : BaseRequestHandler,
                                      IRequestHandler<CriarUsuarioCommand, int>,
                                      IRequestHandler<LoginCommand, TokenViewModel>,
                                      IRequestHandler<EditarUsuarioCommand, UsuarioViewModel>,
-                                     IRequestHandler<ConsultarUsuarioPorIdQuery, UsuarioViewModel>
+                                     IRequestHandler<ConsultarUsuarioPorIdQuery, UsuarioViewModel>,
+                                     IRequestHandler<CadastrarMotoristaCommand, bool>
 {
     private readonly IRepository<Usuario> _repository;
     private readonly IReadRepository<Usuario> _readRepository;
@@ -102,5 +103,10 @@ public class UsuarioRequestHandler : BaseRequestHandler,
     public async Task<UsuarioViewModel> Handle(ConsultarUsuarioPorIdQuery request, CancellationToken cancellationToken)
     {
         return await _service.ConsultarPorId(request.Id, cancellationToken);
+    }
+
+    public async Task<bool> Handle(CadastrarMotoristaCommand request, CancellationToken cancellationToken)
+    {
+        return await _service.CadastrarMotorista(request.Habilitacao);
     }
 }

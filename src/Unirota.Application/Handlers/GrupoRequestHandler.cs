@@ -115,13 +115,6 @@ public class GrupoRequestHandler : BaseRequestHandler,
             ServiceContext.AddError("Usuário não encontrado");
             return [];
         }
-
-        if(usuario.GruposComoMotorista.Count is 0)
-        {
-            ServiceContext.AddError("Este usuário não tem grupos");
-            return [];
-        }
-
         
         return await _service.ObterPorUsuarioId(request.Id);;
     }

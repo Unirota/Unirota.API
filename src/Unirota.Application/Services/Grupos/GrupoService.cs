@@ -77,6 +77,12 @@ public class GrupoService : IGrupoService
         var gruposComoPassageiro = await _repository.ListAsync(new ConsultarGrupoComoPassageiroSpec(usuarioId));
         var gruposComoMotorista = await _repository.ListAsync(new ConsultarGrupoComoMotoristaSpec(usuarioId));
         var grupos = gruposComoPassageiro.Concat(gruposComoMotorista).ToList();
+
+        if(grupos.Count == 0)
+        {
+            return [];
+        }
+
         return grupos.Select(x => new ListarGruposViewModel
         {
             Id = x.Id,

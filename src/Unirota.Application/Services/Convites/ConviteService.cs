@@ -19,7 +19,7 @@ public class ConviteService : IConviteService
     public async Task<int> Criar(CriarConviteCommand dto)
     {
         var conviteExistente = await _repository.FirstOrDefaultAsync(
-            new ConsultarConvitePorIdSpec(dto.UsuarioId, dto.MotoristaId, dto.GrupoId, aceito: false));
+            new ConsultarConvitePorIdSpec(dto.UsuarioId, dto.MotoristaId, dto.GrupoId));
 
         if (conviteExistente != null)
         {

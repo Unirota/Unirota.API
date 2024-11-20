@@ -23,9 +23,10 @@ public class Convite : BaseEntity, IAggregateRoot
         GrupoId = grupoId;
     }
 
-    public Convite AceitarConvite()
+    public Convite AceitarConvite(int usuarioId)
     {
         Aceito = true;
+        Grupo.AdicionarPassageiro(usuarioId);
         return this;
     }
 }

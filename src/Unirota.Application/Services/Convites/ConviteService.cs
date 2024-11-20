@@ -42,7 +42,7 @@ public class ConviteService : IConviteService
             return false;
         }
 
-        convite.AceitarConvite();
+        convite.AceitarConvite(convite.UsuarioId);
         await _repository.SaveChangesAsync();
         
         return true;

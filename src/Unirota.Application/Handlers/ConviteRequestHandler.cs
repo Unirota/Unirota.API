@@ -10,7 +10,6 @@ using Unirota.Application.Specifications.Convites;
 using Unirota.Application.Specifications.Usuarios;
 using Unirota.Application.ViewModels.Grupos;
 using Unirota.Domain.Entities.Covites;
-using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.Usuarios;
 
 namespace Unirota.Application.Handlers;

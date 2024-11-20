@@ -138,6 +138,8 @@ public class ConviteRequestHandler : BaseRequestHandler,
             Motorista = x.Motorista?.Nome ?? "",
             Destino = x.Grupo.Destino,
             HoraInicio = x.Grupo.HoraInicio,
+            Participantes = x.Grupo.Passageiros.Count,
+            DataCriacao = x.Grupo.CreatedAt,
             Nota = 5.0
         }).DistinctBy(x => x.Id).ToList();
     }

@@ -10,4 +10,6 @@ public class ListarGruposViewModel
     public string UltimaMensagem { get; set; }
     public DateTime HoraInicio { get; set; }
     public double Nota { get; set; }
+    public int Participantes { get; set; }
+    public DateTime DataCriacao { get; set; }
 }

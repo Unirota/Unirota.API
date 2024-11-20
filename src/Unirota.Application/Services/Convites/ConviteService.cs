@@ -44,7 +44,8 @@ public class ConviteService : IConviteService
 
         convite.AceitarConvite(convite.UsuarioId);
         await _repository.SaveChangesAsync();
-        
+
+        await _repository.DeleteAsync(convite);
         return true;
     }
 

@@ -11,6 +11,6 @@ public class ObterConvitesPorUsuarioIdSpec : Specification<Convite>
                 .ThenInclude(x => x.Passageiros)
             .Include(x => x.Grupo.Mensagens)
             .Include(x => x.Motorista)
-            .Where(x => x.UsuarioId == usuarioId);
+            .Where(x => x.UsuarioId == usuarioId && x.Aceito == false);
     }
 }

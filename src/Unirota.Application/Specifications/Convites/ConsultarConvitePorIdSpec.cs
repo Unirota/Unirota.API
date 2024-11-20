@@ -7,7 +7,8 @@ public class ConsultarConvitePorIdSpec : Specification<Convite>
 {
     public ConsultarConvitePorIdSpec(int id)
     {
-        Query.Where(usuario => usuario.Id == id);
+        Query.Include(x => x.Grupo)
+            .Where(convite => convite.Id == id);
     }
 
     public ConsultarConvitePorIdSpec(int usuarioId, int motoristaId, int grupoId, bool? aceito = null)

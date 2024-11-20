@@ -1,5 +1,6 @@
 ﻿using Unirota.Domain.Common.Contracts;
 using Unirota.Domain.Entities.Corridas;
+using Unirota.Domain.Entities.Covites;
 using Unirota.Domain.Entities.Mensagens;
 using Unirota.Domain.Entities.SolicitacoesDeEntrada;
 using Unirota.Domain.Entities.Usuarios;
@@ -24,6 +25,7 @@ public class Grupo : BaseEntity, IAggregateRoot
 
     public ICollection<Mensagem> Mensagens { get; private set; } = [];
     public ICollection<Corrida> Corridas { get; set; } = [];
+    public ICollection<Convite> Convites { get; set; } = [];
 
     public Grupo() { }
 

@@ -87,9 +87,9 @@ public class GrupoService : IGrupoService
         {
             Id = x.Id,
             Nome = x.Nome,
-            UltimaMensagem = x.Mensagens.OrderByDescending(y => y.CreatedAt).First().Conteudo,
-            Descricao = x.Descricao,
-            Motorista = x.Motorista.Nome,
+            UltimaMensagem = x.Mensagens.Count > 0 ? x.Mensagens.OrderByDescending(y => y.CreatedAt).First().Conteudo : "",
+            Descricao = x.Descricao ?? "",
+            Motorista = x.Motorista?.Nome ?? "",
             Destino = x.Destino,
             HoraInicio = x.HoraInicio,
             Nota = 5.0

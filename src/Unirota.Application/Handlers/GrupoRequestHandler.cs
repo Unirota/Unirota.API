@@ -19,7 +19,9 @@ public class GrupoRequestHandler : BaseRequestHandler,
                                    IRequestHandler<DeletarGrupoCommand, bool>,
                                    IRequestHandler<ObterGrupoUsuarioCommand, ICollection<ListarGruposViewModel>>,
                                    IRequestHandler<ConsultarGrupoPorIdQuery, Grupo>,
-                                   IRequestHandler<ObterGruposHomeQuery, ICollection<ListarGruposViewModel>>
+                                   IRequestHandler<ObterGruposHomeQuery, ICollection<ListarGruposViewModel>>,
+                                   IRequestHandler<ObterGruposComoMotoristaQuery, IEnumerable<ListarGruposParaConviteViewModel>>
+
 {
     private readonly ICurrentUser _currentUser;
     private readonly IReadRepository<Usuario> _readUserRepository;
@@ -122,5 +124,21 @@ public class GrupoRequestHandler : BaseRequestHandler,
     public async Task<ICollection<ListarGruposViewModel>> Handle(ObterGruposHomeQuery request, CancellationToken cancellationToken)
     {
         return await _service.ObterGruposParaHome(request, cancellationToken);
+    }
+
+    public async Task<IEnumerable<ListarGruposParaConviteViewModel>> Handle(ObterGruposComoMotoristaQuery request, CancellationToken cancellationToken)
+    {
+        var gruposComoMotorista = await _readGrupoRepository.ListAsync(new ConsultarGrupoComoMotoristaSpec(_currentUser.GetUserId()), cancellationToken);
+
+        if(gruposComoMotorista.Count is 0)
+        {
+            return [];
+        }
+
+        return gruposComoMotorista.Select(grupo => new ListarGruposParaConviteViewModel
+        {
+            Id = grupo.Id,
+            Nome = grupo.Nome
+        });
     }
 }

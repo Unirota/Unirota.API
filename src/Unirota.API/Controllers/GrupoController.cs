@@ -37,6 +37,13 @@ public class GrupoController : BaseApiController
         return GetResponse(await Mediator.Send(request));
     }
 
+    [HttpGet("meusgrupos")]
+    [Authorize]
+    public async Task<IActionResult> ObterGruposComoMotorista(ObterGruposComoMotoristaQuery request)
+    {
+        return GetResponse(await Mediator.Send(request));
+    }
+
 
     [HttpDelete]
     [Authorize]

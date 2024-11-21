@@ -10,6 +10,7 @@ using Unirota.Application.Specifications.Convites;
 using Unirota.Application.Specifications.Usuarios;
 using Unirota.Application.ViewModels.Grupos;
 using Unirota.Domain.Entities.Covites;
+using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.Usuarios;
 
 namespace Unirota.Application.Handlers;
@@ -42,7 +43,7 @@ public class ConviteRequestHandler : BaseRequestHandler,
     }
     public async Task<int> Handle(CriarConviteCommand request, CancellationToken cancellationToken)
     {
-        var motorista = await _readUserRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(request.MotoristaId), cancellationToken);
+        var motorista = await _readUserRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(_currentUser.GetUserId()), cancellationToken);
         if (motorista is null)
         {
             ServiceContext.AddError("Motorista não encontrado");
@@ -55,14 +56,14 @@ public class ConviteRequestHandler : BaseRequestHandler,
             return default;
         }
 
-        var userConvidado = await _readUserRepository.AnyAsync(new ConsultarUsuarioPorIdSpec(request.UsuarioId), cancellationToken);
-        if (!userConvidado)
+        var userConvidado = await _readUserRepository.FirstOrDefaultAsync(new ConsultarUsuarioPorEmailSpec(request.Email), cancellationToken);
+        if (userConvidado is null)
         {
             ServiceContext.AddError("Usuário não encontrado");
             return default;
         }
 
-        var convite = await _service.Criar(request);
+        var convite = await _service.Criar(userConvidado.Id, motorista.Id, request.GrupoId);
         return convite;
     }
 

@@ -16,10 +16,10 @@ public class ConviteService : IConviteService
         _serviceContext = serviceContext;
     }
 
-    public async Task<int> Criar(CriarConviteCommand dto)
+    public async Task<int> Criar(int usuarioId, int motoristaId, int grupoId)
     {
         var conviteExistente = await _repository.FirstOrDefaultAsync(
-            new ConsultarConvitePorIdSpec(dto.UsuarioId, dto.MotoristaId, dto.GrupoId));
+            new ConsultarConvitePorIdSpec(usuarioId, motoristaId, grupoId));
 
         if (conviteExistente != null)
         {
@@ -27,7 +27,7 @@ public class ConviteService : IConviteService
             return 0;
         }
         
-        Convite convite = new Convite(dto.UsuarioId, dto.MotoristaId, dto.GrupoId);
+        Convite convite = new Convite(usuarioId, motoristaId, grupoId);
         await _repository.AddAsync(convite);
         return convite.Id;
     }

@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
 using Unirota.API.Configurations;
+using Unirota.Application.Hubs;
 using Unirota.API.OptionsSetup;
 using Unirota.API.Swagger;
 using Unirota.Application;
@@ -65,6 +66,7 @@ builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwa
 builder.Services.AddHealthChecks();
 
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
 var app = builder.Build();
 
 app.MapHealthChecks("/healthz");
@@ -91,5 +93,7 @@ app.UseAuthorization();
 app.UseCurrentUser();
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();

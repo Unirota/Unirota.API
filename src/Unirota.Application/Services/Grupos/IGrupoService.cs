@@ -1,8 +1,7 @@
 ﻿using Unirota.Application.Commands.Grupos;
 using Unirota.Application.Common.Interfaces;
-using Unirota.Application.ViewModels.Grupos;
-using Unirota.Domain.Entities.Grupos;
 using Unirota.Application.Queries.Grupo;
+using Unirota.Application.ViewModels.Grupos;
 using Unirota.Domain.Entities.Grupos;
 
 namespace Unirota.Application.Services.Grupos;
@@ -16,4 +15,5 @@ public interface IGrupoService : IScopedService
     public Task<ICollection<ListarGruposViewModel>> ObterPorUsuarioId(int usuarioId);
     public Task<int> Editar(EditarGrupoCommand request, CancellationToken cancellationToken);
     public Task<Grupo?> ObterPorId(ConsultarGrupoPorIdQuery request, CancellationToken cancellationToken);
+    public Task<ICollection<ListarGruposViewModel>> ObterGruposParaHome(ObterGruposHomeQuery destino, CancellationToken cancellationToken);
 }

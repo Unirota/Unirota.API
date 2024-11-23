@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Unirota.API.Controllers.Common;
-using Unirota.Application.Services;
-using Unirota.Application.Common.Interfaces;
 using Unirota.Application.Commands.SolicitacaoEntrada;
+using Unirota.Application.Common.Interfaces;
+using Unirota.Application.Queries.SolicitacoesEntrada;
+using Unirota.Application.Services;
 
 namespace Unirota.API.Controllers;
 
@@ -29,6 +30,7 @@ public class SolicitacaoEntradaController : BaseApiController
     [Authorize]
     public async Task<IActionResult> Aceitar(AceitarEntradaGrupoCommand command)
     {
+        command.ContextId = HttpContext.Connection.Id;
         return GetResponse(await Mediator.Send(command));
     }
 
@@ -44,5 +46,11 @@ public class SolicitacaoEntradaController : BaseApiController
     public async Task<IActionResult> Recusar(CancelarSolicitacaoEntradaGrupoCommand command)
     {
         return GetResponse(await Mediator.Send(command));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ObterSolicitacoesUsuario()
+    {
+        return GetResponse(await Mediator.Send(new ObterSolicitacoesUsuarioQuery()));
     }
 }

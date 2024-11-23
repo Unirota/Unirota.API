@@ -15,7 +15,9 @@ public static class GrupoMapSettings
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.Nome, src => src.Nome)
             .Map(dest => dest.Descricao, src => src.Descricao)
-            .Map(dest => dest.HoraInicio, src => src.HoraInicio);
+            .Map(dest => dest.HoraInicio, src => src.HoraInicio)
+            .Map(dest => dest.Motorista, src => src.Motorista.Nome)
+            .Map(dest => dest.Destino, src => src.Destino);
 
         TypeAdapterConfig<Mensagem, ListarMensagensViewModel>
             .NewConfig()

@@ -1,11 +1,12 @@
-﻿using Moq;
+﻿using Microsoft.AspNetCore.SignalR;
+using Moq;
 using Unirota.Application.Common.Interfaces;
+using Unirota.Application.Hubs;
 using Unirota.Application.Persistence;
 using Unirota.Application.Services;
 using Unirota.Application.Services.SolicitacaoEntrada;
 using Unirota.Application.Specifications.SolicitacaoEntrada;
 using Unirota.Domain.Entities.SolicitacoesDeEntrada;
-using Unirota.Domain.Entities.Usuarios;
 using Unirota.UnitTests.Builder;
 using Xunit;
 
@@ -16,11 +17,12 @@ public class SolicitacaoEntradaServiceTests
     private readonly Mock<IRepository<SolicitacaoDeEntrada>> _solicitacaoRepository = new();
     private readonly Mock<IServiceContext> _serviceContext = new();
     private readonly Mock<ICurrentUser> _currentUser = new();
+    private readonly Mock<IHubContext<ChatHub>> _chatHub = new();
     private readonly SolicitacaoEntradaService _service;
 
     public SolicitacaoEntradaServiceTests()
     {
-        _service = new(_solicitacaoRepository.Object, _serviceContext.Object, _currentUser.Object);
+        _service = new(_solicitacaoRepository.Object, _serviceContext.Object, _currentUser.Object, _chatHub.Object);
     }
 
     [Fact(DisplayName = "Deve criar solicitação de entrada com sucesso")]
@@ -71,7 +73,7 @@ public class SolicitacaoEntradaServiceTests
         _currentUser.Setup(c => c.GetUserId()).Returns(motoristaId);
 
         // Act
-        var result = await _service.AceitarSolicitacaoEntrada(solicitacaoId, CancellationToken.None);
+        var result = await _service.AceitarSolicitacaoEntrada(solicitacaoId, "", CancellationToken.None);
 
         // Assert
         Assert.True(result);
@@ -90,7 +92,7 @@ public class SolicitacaoEntradaServiceTests
             .ReturnsAsync(null as SolicitacaoDeEntrada);
 
         // Act
-        var result = await _service.AceitarSolicitacaoEntrada(solicitacaoId, CancellationToken.None);
+        var result = await _service.AceitarSolicitacaoEntrada(solicitacaoId, "", CancellationToken.None);
 
         // Assert
         Assert.False(result);
@@ -116,7 +118,7 @@ public class SolicitacaoEntradaServiceTests
         _currentUser.Setup(c => c.GetUserId()).Returns(usuarioNaoMotoristaId);
 
         // Act
-        var result = await _service.AceitarSolicitacaoEntrada(solicitacaoId, CancellationToken.None);
+        var result = await _service.AceitarSolicitacaoEntrada(solicitacaoId, "", CancellationToken.None);
 
         // Assert
         Assert.False(result);

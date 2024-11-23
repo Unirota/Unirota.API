@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Unirota.API.Controllers.Common;
 using Unirota.Application.Commands.Convites;
-
+using Unirota.Application.Queries.Convites;
 using Unirota.Application.Services;
 
 namespace Unirota.API.Controllers;
@@ -38,5 +38,11 @@ public class ConviteController : BaseApiController
     public async Task<IActionResult> Recusar(RecusarConviteCommand request)
     {
         return GetResponse(await Mediator.Send(request));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ObterConvitesUsuario()
+    {
+         return GetResponse(await Mediator.Send(new ObterConvitesUsuarioQuery()));
     }
 }

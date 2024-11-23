@@ -30,6 +30,20 @@ public class GrupoController : BaseApiController
         return GetResponse(await Mediator.Send(request));
     }
 
+    [HttpGet("home")]
+    [Authorize]
+    public async Task<IActionResult> ObterHome([FromQuery] ObterGruposHomeQuery request)
+    {
+        return GetResponse(await Mediator.Send(request));
+    }
+
+    [HttpGet("meusgrupos")]
+    [Authorize]
+    public async Task<IActionResult> ObterGruposComoMotorista([FromQuery] ObterGruposComoMotoristaQuery request)
+    {
+        return GetResponse(await Mediator.Send(request));
+    }
+
 
     [HttpDelete]
     [Authorize]

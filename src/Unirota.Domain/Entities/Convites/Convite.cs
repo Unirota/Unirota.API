@@ -1,4 +1,5 @@
 ﻿using Unirota.Domain.Common.Contracts;
+using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.Usuarios;
 
 namespace Unirota.Domain.Entities.Covites;
@@ -11,6 +12,7 @@ public class Convite : BaseEntity, IAggregateRoot
     public bool Aceito { get; set; }
     public Usuario Usuario { get; set; }
     public Usuario Motorista { get; set; }
+    public Grupo Grupo { get; set; }
 
     public Convite() { }
 
@@ -21,9 +23,10 @@ public class Convite : BaseEntity, IAggregateRoot
         GrupoId = grupoId;
     }
 
-    public Convite AceitarConvite()
+    public Convite AceitarConvite(int usuarioId)
     {
         Aceito = true;
+        Grupo.AdicionarPassageiro(usuarioId);
         return this;
     }
 }

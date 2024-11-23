@@ -1,5 +1,4 @@
 using FluentValidation;
-using Unirota.Application.Commands.Grupos;
 using Unirota.Application.Commands.Mensagens;
 
 namespace Unirota.Application.Validations.Mensagens;

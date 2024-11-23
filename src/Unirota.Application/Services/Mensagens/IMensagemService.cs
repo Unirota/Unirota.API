@@ -6,7 +6,7 @@ namespace Unirota.Application.Services.Mensagens;
 
 public interface IMensagemService : IScopedService
 {
-    Task<int> Criar(CriarMensagemCommand command, int usuarioId);
+    Task<ListarMensagensViewModel> Criar(CriarMensagemCommand command, int usuarioId);
     Task<ICollection<ListarMensagensViewModel>> ObterPorGrupoId(int grupoId);
     
   

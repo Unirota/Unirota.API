@@ -15,8 +15,8 @@ using Unirota.Domain.Entities.Mensagens;
 namespace Unirota.Application.Commands.Mensagens;
 
 public class MensagemRequestHandler : BaseRequestHandler,
-                                      IRequestHandler<CriarMensagemCommand, int>,
-                                      IRequestHandler<ListarMensagensPorGrupoQuery, ResultadoPaginadoViewModel<ListarMensagensViewModel>?>
+                                      IRequestHandler<CriarMensagemCommand, ListarMensagensViewModel>,
+                                      IRequestHandler<ListarMensagensPorGrupoQuery, ICollection<ListarMensagensViewModel>?>
 {
     private readonly IMensagemService _mensagemService;
     private readonly IGrupoService _grupoService;
@@ -35,13 +35,13 @@ public class MensagemRequestHandler : BaseRequestHandler,
         _readRepository = readRepository;
     }
 
-    public async Task<int> Handle(CriarMensagemCommand request, CancellationToken cancellationToken)
+    public async Task<ListarMensagensViewModel> Handle(CriarMensagemCommand request, CancellationToken cancellationToken)
     {
         var usuarioId = _currentUser.GetUserId(); 
         return await _mensagemService.Criar(request, usuarioId);
     }
 
-    public async Task<ResultadoPaginadoViewModel<ListarMensagensViewModel>?> Handle(ListarMensagensPorGrupoQuery request, CancellationToken cancellationToken)
+    public async Task<ICollection<ListarMensagensViewModel>?> Handle(ListarMensagensPorGrupoQuery request, CancellationToken cancellationToken)
     {
         if (!await _grupoService.VerificarUsuarioPertenceAoGrupo(_currentUser.GetUserId(), request.GrupoId))
         {
@@ -49,10 +49,8 @@ public class MensagemRequestHandler : BaseRequestHandler,
             return null;
         }
 
-        var quantidadeRegistros = await _readRepository.CountAsync(new ListarMensagemBaseSpec(request.Pagina, request.QuantidadeRegistros, request.GrupoId), cancellationToken);
+        var registros = await _readRepository.ListAsync(new ListarMensagemBaseSpec(request.GrupoId), cancellationToken);
 
-        var registros = await _readRepository.ListAsync(new ListarMensagemBaseSpec(request.Pagina, request.QuantidadeRegistros, request.GrupoId), cancellationToken);
-
-        return new ResultadoPaginadoViewModel<ListarMensagensViewModel>(quantidadeRegistros, registros.Adapt<ICollection<ListarMensagensViewModel>>());
+        return registros.Adapt<ICollection<ListarMensagensViewModel>>();
     }
 }

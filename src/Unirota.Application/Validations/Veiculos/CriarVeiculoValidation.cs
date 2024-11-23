@@ -1,10 +1,4 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Unirota.Application.Commands.Usuarios;
 using Unirota.Application.Commands.Veiculos;
 
 namespace Unirota.Application.Validations.Veiculos;

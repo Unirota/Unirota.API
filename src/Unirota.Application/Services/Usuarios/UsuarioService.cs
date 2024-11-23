@@ -150,4 +150,22 @@ public class UsuarioService : IUsuarioService
         var usuario = await _repository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(usuarioId));
         return usuario != null;
     }
+
+    public async Task<bool> CadastrarMotorista(string habilitacao)
+    {
+        try
+        {
+            var current = _currentUser.GetUserId();
+            var usuario = await _repository.FirstOrDefaultAsync(new ConsultarUsuarioPorIdSpec(current));
+            if(usuario is null)
+                return false;
+            usuario = usuario.AlterarHabilitacao(habilitacao);
+            await _repository.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
 }

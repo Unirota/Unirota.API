@@ -77,7 +77,49 @@ public class GrupoService : IGrupoService
         var gruposComoPassageiro = await _repository.ListAsync(new ConsultarGrupoComoPassageiroSpec(usuarioId));
         var gruposComoMotorista = await _repository.ListAsync(new ConsultarGrupoComoMotoristaSpec(usuarioId));
         var grupos = gruposComoPassageiro.Concat(gruposComoMotorista).ToList();
-        var gruposViewModel = grupos.Adapt<List<ListarGruposViewModel>>();
-        return gruposViewModel;
+
+        if(grupos.Count == 0)
+        {
+            return [];
+        }
+
+        return grupos.Select(x => new ListarGruposViewModel
+        {
+            Id = x.Id,
+            Nome = x.Nome,
+            UltimaMensagem = x.Mensagens.Count > 0 ? x.Mensagens.OrderByDescending(y => y.CreatedAt).First().Conteudo : "",
+            Descricao = x.Descricao ?? "",
+            Motorista = x.Motorista?.Nome ?? "",
+            Destino = x.Destino,
+            HoraInicio = x.HoraInicio,
+            Nota = 5.0
+        }).ToList();
+    }
+
+    public async Task<ICollection<ListarGruposViewModel>> ObterGruposParaHome(ObterGruposHomeQuery destino,CancellationToken cancellationToken)
+    {
+        var grupos = await _repository.ListAsync(new ObterGruposParaHomeSpec(destino), cancellationToken);
+        var gruposListados = grupos.Select(x =>
+        {
+            var todasNotas = x.Corridas.SelectMany(x => x.Avaliacoes.Select(y => y.Nota));
+            var notas = todasNotas.Any() ? todasNotas.Average() : 0;
+            return new ListarGruposViewModel
+            {
+                Id = x.Id,
+                Nome = x.Nome,
+                Descricao = x.Descricao,
+                Motorista = x.Motorista.Nome,
+                Destino = x.Destino,
+                HoraInicio = x.HoraInicio,
+                Nota = double.Round(notas, 2)
+            };
+        });
+
+        if (destino.Nota != 0)
+        {
+            gruposListados.Where(x => x.Nota >= destino.Nota);
+        }
+        
+        return gruposListados.ToList();
     }
 }

@@ -11,13 +11,17 @@ using Unirota.Application.Specifications.Usuarios;
 using Unirota.Application.ViewModels.Grupos;
 using Unirota.Domain.Entities.Grupos;
 using Unirota.Domain.Entities.Usuarios;
+
 namespace Unirota.Application.Handlers;
 
 public class GrupoRequestHandler : BaseRequestHandler,
                                    IRequestHandler<CriarGrupoCommand, int>,
                                    IRequestHandler<DeletarGrupoCommand, bool>,
                                    IRequestHandler<ObterGrupoUsuarioCommand, ICollection<ListarGruposViewModel>>,
-                                   IRequestHandler<ConsultarGrupoPorIdQuery, Grupo>
+                                   IRequestHandler<ConsultarGrupoPorIdQuery, Grupo>,
+                                   IRequestHandler<ObterGruposHomeQuery, ICollection<ListarGruposViewModel>>,
+                                   IRequestHandler<ObterGruposComoMotoristaQuery, IEnumerable<ListarGruposParaConviteViewModel>>
+
 {
     private readonly ICurrentUser _currentUser;
     private readonly IReadRepository<Usuario> _readUserRepository;
@@ -64,7 +68,7 @@ public class GrupoRequestHandler : BaseRequestHandler,
         return await _service.Editar(request, cancellationToken);
     }
 
-    public async Task<Grupo> Handle(ConsultarGrupoPorIdQuery request, CancellationToken cancellationToken)
+    public async Task<Grupo?> Handle(ConsultarGrupoPorIdQuery request, CancellationToken cancellationToken)
     {
         return await _service.ObterPorId(request, cancellationToken);
     }
@@ -113,14 +117,28 @@ public class GrupoRequestHandler : BaseRequestHandler,
             ServiceContext.AddError("Usuário não encontrado");
             return [];
         }
+        
+        return await _service.ObterPorUsuarioId(request.Id);;
+    }
 
-        if(usuario.GruposComoMotorista.Count is 0)
+    public async Task<ICollection<ListarGruposViewModel>> Handle(ObterGruposHomeQuery request, CancellationToken cancellationToken)
+    {
+        return await _service.ObterGruposParaHome(request, cancellationToken);
+    }
+
+    public async Task<IEnumerable<ListarGruposParaConviteViewModel>> Handle(ObterGruposComoMotoristaQuery request, CancellationToken cancellationToken)
+    {
+        var gruposComoMotorista = await _readGrupoRepository.ListAsync(new ConsultarGrupoComoMotoristaSpec(_currentUser.GetUserId()), cancellationToken);
+
+        if(gruposComoMotorista.Count is 0)
         {
-            ServiceContext.AddError("Este usuário não tem grupos");
             return [];
         }
 
-        
-        return await _service.ObterPorUsuarioId(request.Id);;
+        return gruposComoMotorista.Select(grupo => new ListarGruposParaConviteViewModel
+        {
+            Id = grupo.Id,
+            Nome = grupo.Nome
+        });
     }
 }
